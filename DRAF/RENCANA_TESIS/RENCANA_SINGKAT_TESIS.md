@@ -36,7 +36,7 @@
 
 > **Catatan judul.** Struktur judul mengikuti pola penelitian NER *hybrid* di Unhas (Zainuddin, Mudassir & Tahir, 2025, TWBiL), dalam versi ringkas tanpa frasa "dengan Metode Hibrida". Bila ablasi menunjukkan CharCNN atau Leksikon Toleran tidak menambah nilai, judul disesuaikan dengan komponen yang tersisa.
 
-**Task**: mengekstrak entitas penting dari keluhan korban penipuan online secara otomatis, dengan 5 tipe entitas: **PELAKU, NOMINAL, PLATFORM, MODUS, OBJEK**. Entitas bertumpuk diizinkan secara terbatas: PLATFORM di dalam PELAKU, dan NOMINAL di dalam MODUS.
+**Task**: mengekstrak entitas penting dari keluhan penipuan online secara otomatis, dengan 5 tipe entitas: **PELAKU, NOMINAL, PLATFORM, MODUS, OBJEK**. Entitas bertumpuk diizinkan secara terbatas: PLATFORM di dalam PELAKU, dan NOMINAL di dalam MODUS.
 
 ---
 
@@ -58,19 +58,19 @@ Sumber: APJII 2024 (dikutip CNN Indonesia, 1 Februari 2024), Kemenkominfo 2024 (
 
 **Fenomena.** Sebagian besar korban tidak berakhir di jalur hukum. Survei GASA dan Mastercard (2025, 358 korban) menemukan hanya 13% korban yang melapor ke polisi dan 34% ke otoritas mana pun; laporan lain tersebar ke platform media sosial (53%) dan situs ulasan (15%); di antara 144 korban yang kehilangan uang, 74% melapor ke penyedia pembayaran. Di sisi lain, banyak korban menuliskan pengalamannya secara terbuka di ulasan aplikasi dan media sosial. Teks itu memuat informasi forensik yang berguna (pelaku, platform, nominal, modus), tetapi tersebar dan tidak terstruktur.
 
-**Solusi.** Ekstraksi entitas bernama (*named entity recognition*, NER) dapat mengubah teks korban menjadi data terstruktur. Sepengetahuan penulis, berdasarkan penelusuran literatur, belum ada dataset NER untuk domain ini dalam bahasa Indonesia; karena itu penelitian ini juga membangun datasetnya.
+**Solusi.** Ekstraksi entitas bernama (*named entity recognition*, NER) dapat mengubah teks keluhan penipuan menjadi data terstruktur. Sepengetahuan penulis, berdasarkan penelusuran literatur, belum ada dataset NER untuk domain ini dalam bahasa Indonesia; karena itu penelitian ini juga membangun datasetnya.
 
-**Masalah informatika.** NER saja belum tentu cukup, karena teks korban ditulis bebas dan tidak formal, dengan empat ciri yang diukur pada prapenelitian: kata tidak baku, ejaan nama yang bervariasi, nominal tidak baku, dan entitas bertumpuk (Bagian 3). Apakah model NER standar mampu menanganinya adalah **pertanyaan penelitian**, diuji dengan membandingkan IndoBERTweet + Efficient GlobalPointer (tanpa adaptor) dengan arsitektur usulan.
+**Masalah informatika.** NER saja belum tentu cukup, karena teks keluhan penipuan ditulis bebas dan tidak formal, dengan empat ciri yang diukur pada prapenelitian: kata tidak baku, ejaan nama yang bervariasi, nominal tidak baku, dan entitas bertumpuk (Bagian 3). Apakah model NER standar mampu menanganinya adalah **pertanyaan penelitian**, diuji dengan membandingkan IndoBERTweet + Efficient GlobalPointer (tanpa adaptor) dengan arsitektur usulan.
 
 **Pemilihan arsitektur.** MGBERT-Pointer (Zhang et al., 2024) dipakai sebagai kerangka rujukan karena Efficient GlobalPointer menangani entitas bertumpuk dan adaptornya modular. Namun komponennya hanya dievaluasi pada teks Tionghoa, sehingga komponen itu diuji dan disesuaikan untuk teks Indonesia (Bagian 6 dan 7).
 
-> **Catatan sumber data.** Korpus dibangun dari keluhan korban yang terbuka: ulasan Play Store bintang 1 dan 2 serta unggahan X. Kanal pelaporan resmi tidak menyediakan teksnya untuk umum dan hanya dipakai sebagai gambaran skala. Teks publik dapat memuat data pribadi (nomor rekening, telepon, nama), sehingga penanganannya mengikuti prinsip minimisasi dan anonimisasi. Perbedaan genre antara ulasan, X, dan laporan resmi berdampak nyata pada skema entitas (lihat Lampiran A.4).
+> **Catatan sumber data.** Korpus dibangun dari keluhan penipuan yang terbuka: ulasan Play Store bintang 1 dan 2 serta unggahan X. Kanal pelaporan resmi tidak menyediakan teksnya untuk umum dan hanya dipakai sebagai gambaran skala. Teks publik dapat memuat data pribadi (nomor rekening, telepon, nama), sehingga penanganannya mengikuti prinsip minimisasi dan anonimisasi. Perbedaan genre antara ulasan, X, dan laporan resmi berdampak nyata pada skema entitas (lihat Lampiran A.4).
 
 ---
 
 ## 3. Temuan Prapenelitian
 
-Bagian 2 menyebut satu kekosongan dan empat ciri teks korban. Bagian ini menunjukkan buktinya satu per satu dengan penomoran yang sama (M1, lalu 01 sampai 04). Semua angka prapenelitian berlaku untuk **kandidat** keluhan korban dan perbandingannya dengan teks pembanding; korpus, definisi kelompok, dan risiko sirkularitas dijelaskan di Lampiran A. Apakah model standar gagal pada keempat ciri ini **belum diuji**; itu pertanyaan eksperimen (Bagian 8), bukan premis.
+Bagian 2 menyebut satu kekosongan dan empat ciri teks keluhan penipuan. Bagian ini menunjukkan buktinya satu per satu dengan penomoran yang sama (M1, lalu 01 sampai 04). Semua angka prapenelitian berlaku untuk **kandidat** keluhan penipuan dan perbandingannya dengan teks pembanding; korpus, definisi kelompok, dan risiko sirkularitas dijelaskan di Lampiran A. Apakah model standar gagal pada keempat ciri ini **belum diuji**; itu pertanyaan eksperimen (Bagian 8), bukan premis.
 
 ### 3.1 Ringkasan
 
@@ -92,9 +92,9 @@ Dave & Chowanda (2024) melaporkan bahwa NER finansial Indonesia mencapai F1 0,73
 
 ### 3.3 Ciri 01: Kata tidak baku
 
-Korban menulis keluhan dengan bahasa sehari-hari. Koto et al. (2021) menunjukkan bahwa model yang dilatih lanjut pada teks Twitter (IndoBERTweet) mengungguli IndoBERT pada tugas teks media sosial Indonesia (EMNLP 2021). Data prapenelitian mengonfirmasi bahwa 74,9% keluhan korban Play Store dan 92,9% keluhan korban X memuat kata tidak baku, dibanding 2,4% paragraf Wikipedia. Catatan penting: ketidakbakuan ini adalah sifat ragam platform, bukan khas penipuan, karena teks pembanding dari platform yang sama hampir sama informalnya.
+Penulis keluhan memakai bahasa sehari-hari. Koto et al. (2021) menunjukkan bahwa model yang dilatih lanjut pada teks Twitter (IndoBERTweet) mengungguli IndoBERT pada tugas teks media sosial Indonesia (EMNLP 2021). Data prapenelitian mengonfirmasi bahwa 74,9% keluhan penipuan Play Store dan 92,9% keluhan penipuan X memuat kata tidak baku, dibanding 2,4% paragraf Wikipedia. Catatan penting: ketidakbakuan ini adalah sifat ragam platform, bukan khas penipuan, karena teks pembanding dari platform yang sama hampir sama informalnya.
 
-| Indikator | Korban Play Store | Pembanding Play Store | Korban X | Pembanding X | Wikipedia |
+| Indikator | Kandidat Play Store | Pembanding Play Store | Kandidat X | Pembanding X | Wikipedia |
 |---|---|---|---|---|---|
 | Dokumen memuat kata tidak baku | 74,9% | 67,8% | 92,9% | 90,0% | 2,4% |
 | Token tidak baku | 7,8% | 10,1% | 9,8% | 8,4% | 0,1% |
@@ -104,26 +104,26 @@ Korban menulis keluhan dengan bahasa sehari-hari. Koto et al. (2021) menunjukkan
 | Dokumen campur kode bahasa Inggris | 0,1% | 0,1% | 2,8% | 2,5% | 5,4% |
 | Median panjang (kata) | 34 | 15 | 41 | 40 | 40 |
 
-Kata tidak baku diukur dengan kamus *colloquial-indonesian-lexicon* (Salsabila et al., 2018), sehingga angkanya adalah batas bawah. Ciri 01 **didukung kuat** terhadap rujukan formal. Gabungan angka dan huruf tercatat 32,9% pada kandidat korban Play Store dan 14,5% pada pembanding, tetapi selisih ini ikut dipengaruhi seleksi nominal dan panjang teks, sehingga tidak ditafsirkan sebagai ciri khas korban. Per token, kandidat korban tidak lebih informal daripada pembanding (7,8% berbanding 10,1% token tidak baku). Campur kode bahasa Inggris hampir tidak ada, sehingga istilah "campur kode" pada rumusan awal dibatasi pada X dan tidak dijadikan ciri utama.
+Kata tidak baku diukur dengan kamus *colloquial-indonesian-lexicon* (Salsabila et al., 2018), sehingga angkanya adalah batas bawah. Ciri 01 **didukung kuat** terhadap rujukan formal. Gabungan angka dan huruf tercatat 32,9% pada kandidat keluhan penipuan Play Store dan 14,5% pada pembanding, tetapi selisih ini ikut dipengaruhi seleksi nominal dan panjang teks, sehingga tidak ditafsirkan sebagai ciri khas keluhan penipuan. Per token, kandidat keluhan penipuan tidak lebih informal daripada pembanding (7,8% berbanding 10,1% token tidak baku). Campur kode bahasa Inggris hampir tidak ada, sehingga istilah "campur kode" pada rumusan awal dibatasi pada X dan tidak dijadikan ciri utama.
 
-**Jarak dari ragam pralatih.** *Pseudo-perplexity* (Salazar et al., 2020) median IndoBERTweet adalah 31,3 pada kandidat korban Play Store, 40,5 pada pembanding Play Store, 32,7 pada kandidat korban X, 36,9 pada pembanding X, dan 17,7 pada Wikipedia. Teks korban sekitar 1,8 kali lebih "asing" daripada Wikipedia (rasio 1,76; IK 95% 1,39 sampai 2,14), tetapi **tidak berbeda** dari teks pembanding platform yang sama (rasio 0,77, IK 95% 0,65 sampai 1,02 pada Play Store; 0,89, IK 95% 0,74 sampai 1,09 pada X). Pada anggaran 50.000 token, 31,4% token kandidat korban Play Store tidak muncul di separuh sampel Wikipedia, dibanding 35,4% pada pembanding (batas dasar akibat ukuran sampel 10,8%). Jadi jarak dari ragam formal berasal dari **ragam platform**, bukan dari domain penipuan. *Pseudo-perplexity* IndoBERT belum tersedia karena *checkpoint* `indobenchmark/indobert-base-p1` tidak menyimpan bobot kepala MLM; perlu dihitung ulang dengan *checkpoint* lain.
+**Jarak dari ragam pralatih.** *Pseudo-perplexity* (Salazar et al., 2020) median IndoBERTweet adalah 31,3 pada kandidat keluhan penipuan Play Store, 40,5 pada pembanding Play Store, 32,7 pada kandidat keluhan penipuan X, 36,9 pada pembanding X, dan 17,7 pada Wikipedia. Teks keluhan penipuan sekitar 1,8 kali lebih "asing" daripada Wikipedia (rasio 1,76; IK 95% 1,39 sampai 2,14), tetapi **tidak berbeda** dari teks pembanding platform yang sama (rasio 0,77, IK 95% 0,65 sampai 1,02 pada Play Store; 0,89, IK 95% 0,74 sampai 1,09 pada X). Pada anggaran 50.000 token, 31,4% token kandidat keluhan penipuan Play Store tidak muncul di separuh sampel Wikipedia, dibanding 35,4% pada pembanding (batas dasar akibat ukuran sampel 10,8%). Jadi jarak dari ragam formal berasal dari **ragam platform**, bukan dari domain penipuan. *Pseudo-perplexity* IndoBERT belum tersedia karena *checkpoint* `indobenchmark/indobert-base-p1` tidak menyimpan bobot kepala MLM; perlu dihitung ulang dengan *checkpoint* lain.
 
 ### 3.4 Ciri 02: Ejaan nama bervariasi
 
-Nama platform dan *fintech* (*kredivo*, *adakami*, *carousell*) menjadi kata khas keluhan korban, dan satu entitas sering ditulis dalam beberapa bentuk. Dari 3.059 sebutan 13 merek, 468 (15,3%) ditulis tidak baku: dipisah spasi 287 (sekitar 61%; *buka lapak* 122, *link aja* 42, *toko pedia* 31), singkatan 102 (*tokped* 73, *toped* 29), dan salah ketik 79 (*shoppe* 34, *carousel* 22). Varian spasi hampir seluruhnya dari Play Store; pada X yang dominan singkatan media sosial (*wa* 254 berbanding *whatsapp* 49, *ig* 117 berbanding *instagram* 17). Hanya 13 merek yang dipindai, sehingga angka bisa lebih tinggi. Bentuk berspasi (*buka lapak*) tidak terjangkau pembacaan per kata dan menjadi alasan terkuat menambahkan leksikon toleran (Bagian 7). Hasil negatif terkait fragmentasi *subword* ada di 3.7.
+Nama platform dan *fintech* (*kredivo*, *adakami*, *carousell*) menjadi kata khas keluhan penipuan, dan satu entitas sering ditulis dalam beberapa bentuk. Dari 3.059 sebutan 13 merek, 468 (15,3%) ditulis tidak baku: dipisah spasi 287 (sekitar 61%; *buka lapak* 122, *link aja* 42, *toko pedia* 31), singkatan 102 (*tokped* 73, *toped* 29), dan salah ketik 79 (*shoppe* 34, *carousel* 22). Varian spasi hampir seluruhnya dari Play Store; pada X yang dominan singkatan media sosial (*wa* 254 berbanding *whatsapp* 49, *ig* 117 berbanding *instagram* 17). Hanya 13 merek yang dipindai, sehingga angka bisa lebih tinggi. Bentuk berspasi (*buka lapak*) tidak terjangkau pembacaan per kata dan menjadi alasan terkuat menambahkan leksikon toleran (Bagian 7). Hasil negatif terkait fragmentasi *subword* ada di 3.7.
 
 ### 3.5 Ciri 03: Nominal tidak baku
 
-Entitas pada keluhan korban penipuan tidak ditulis dalam bentuk baku. Sebanyak 23,2% kandidat korban Play Store dan 35,4% kandidat korban X memuat ungkapan nominal, dan 81 sampai 85% ungkapan itu ditulis dalam format singkat atau terbilang (*2jt*, *500rb*, *50k*, *sejuta*), bukan pola Rp baku. Format informal ini juga ditemukan pada teks pembanding, sehingga yang khas domain adalah **kehadiran** entitas nominal dan pelaku dalam narasi kerugian, bukan bentuk penulisannya. Nama platform dan *fintech* (*kredivo*, *adakami*, *carousell*) menjadi kata khas keluhan korban, dan pelaku sering disebut lewat frasa penyamar (*cs shopee*, *oknum yang mengaku kurir*).
+Entitas pada keluhan penipuan tidak ditulis dalam bentuk baku. Sebanyak 23,2% kandidat keluhan penipuan Play Store dan 35,4% kandidat keluhan penipuan X memuat ungkapan nominal, dan 81 sampai 85% ungkapan itu ditulis dalam format singkat atau terbilang (*2jt*, *500rb*, *50k*, *sejuta*), bukan pola Rp baku. Format informal ini juga ditemukan pada teks pembanding, sehingga yang khas domain adalah **kehadiran** entitas nominal dan pelaku dalam narasi kerugian, bukan bentuk penulisannya. Nama platform dan *fintech* (*kredivo*, *adakami*, *carousell*) menjadi kata khas keluhan penipuan, dan pelaku sering disebut lewat frasa penyamar (*cs shopee*, *oknum yang mengaku kurir*).
 
-| Indikator | Korban Play Store | Pembanding Play Store | Korban X | Pembanding X |
+| Indikator | Kandidat Play Store | Pembanding Play Store | Kandidat X | Pembanding X |
 |---|---|---|---|---|
 | Dokumen memuat ungkapan nominal | 23,2% | 4,4% | 35,4% | 18,0% |
 | Ungkapan nominal berformat singkat atau terbilang | 80,7% | 80,4% | 85,3% | 78,5% |
 
-Rincian format nominal pada kandidat korban Play Store: angka + *rb/ribu/k* 47,9%, angka + *jt/juta* 30,0%, angka berpemisah ribuan 14,1%, Rp + angka 5,3%, terbilang 2,7%. Pada kandidat korban X: angka + *jt/juta* 46,9%, angka + *rb/ribu/k* 29,9%, Rp + angka 9,9%, terbilang 8,5%, angka berpemisah ribuan 4,8%.
+Rincian format nominal pada kandidat keluhan penipuan Play Store: angka + *rb/ribu/k* 47,9%, angka + *jt/juta* 30,0%, angka berpemisah ribuan 14,1%, Rp + angka 5,3%, terbilang 2,7%. Pada kandidat keluhan penipuan X: angka + *jt/juta* 46,9%, angka + *rb/ribu/k* 29,9%, Rp + angka 9,9%, terbilang 8,5%, angka berpemisah ribuan 4,8%.
 
-Hanya 5 sampai 10% ungkapan nominal pada kandidat korban memakai pola Rp baku. Proporsi format informal hampir sama pada kandidat korban dan pembanding (80,7% berbanding 80,4% di Play Store), jadi bentuk penulisan nominal adalah sifat ragam platform. Selisih prevalensi nominal (23,2% berbanding 4,4%) **tidak** dijadikan bukti karena sebagian dibuat oleh aturan seleksi dan oleh perbedaan panjang teks (lihat Lampiran A.3). Yang dapat diklaim: entitas NOMINAL pada korpus ini mayoritas berformat informal, sehingga model perlu mengenali batas NOMINAL di luar pola Rp baku.
+Hanya 5 sampai 10% ungkapan nominal pada kandidat keluhan penipuan memakai pola Rp baku. Proporsi format informal hampir sama pada kandidat keluhan penipuan dan pembanding (80,7% berbanding 80,4% di Play Store), jadi bentuk penulisan nominal adalah sifat ragam platform. Selisih prevalensi nominal (23,2% berbanding 4,4%) **tidak** dijadikan bukti karena sebagian dibuat oleh aturan seleksi dan oleh perbedaan panjang teks (lihat Lampiran A.3). Yang dapat diklaim: entitas NOMINAL pada korpus ini mayoritas berformat informal, sehingga model perlu mengenali batas NOMINAL di luar pola Rp baku.
 
 Rincian jenis ungkapan pada 6.032 dokumen: singkatan *rb/ribu* 566, angka + *juta* 513, *jt* 454, *k* 342, angka bertitik tanpa Rp 233, kata (*sejuta*) 161; Rp + angka baku hanya 73.
 
@@ -131,9 +131,9 @@ Apakah IndoBERT tanpa pengetahuan domain gagal mengenali pola entitas ini **belu
 
 ### 3.6 Ciri 04: Entitas bertumpuk
 
-Frasa *"CS Shopee"* bisa ditafsirkan berbeda: apakah *Shopee* adalah PLATFORM terpisah atau bagian dari PELAKU? Liu et al. (2024) mengidentifikasi masalah ini sebagai *"lexical conflict"*, yaitu kelemahan kritis model NER berbasis leksikon. (PeerJ CS, Scopus Q1, DOI: 10.7717/peerj-cs.2344). Estimasi heuristik prapenelitian menunjukkan 30,4% kandidat korban Play Store memuat minimal tiga tipe entitas dan sekitar 15,5% memuat kandidat entitas bertumpuk (batas atas kasar).
+Frasa *"CS Shopee"* bisa ditafsirkan berbeda: apakah *Shopee* adalah PLATFORM terpisah atau bagian dari PELAKU? Liu et al. (2024) mengidentifikasi masalah ini sebagai *"lexical conflict"*, yaitu kelemahan kritis model NER berbasis leksikon. (PeerJ CS, Scopus Q1, DOI: 10.7717/peerj-cs.2344). Estimasi heuristik prapenelitian menunjukkan 30,4% kandidat keluhan penipuan Play Store memuat minimal tiga tipe entitas dan sekitar 15,5% memuat kandidat entitas bertumpuk (batas atas kasar).
 
-| Indikator (deteksi pola, bukan anotasi) | Korban Play Store | Pembanding Play Store | Korban X | Pembanding X |
+| Indikator (deteksi pola, bukan anotasi) | Kandidat Play Store | Pembanding Play Store | Kandidat X | Pembanding X |
 |---|---|---|---|---|
 | Dokumen memuat minimal 2 tipe entitas | 62,4% | 18,6% | 46,0% | 50,5% |
 | Dokumen memuat minimal 3 tipe entitas | 30,4% | 3,0% | 21,3% | 21,7% |
@@ -145,7 +145,7 @@ Contoh konkret dari data (Shopee, IMPERSONATION_EXTORTION):
 >
 > Token `shopee` dapat menjadi **PLATFORM** sekaligus bagian dari span **PELAKU** (`cs shopee`). CRF berbasis BIO hanya mengizinkan satu label per token sehingga konflik ini tidak dapat diselesaikan. *Decoder* berbasis *span* seperti **Efficient GlobalPointer**, yang menilai setiap pasangan posisi awal dan akhir *(i, j)* untuk tiap tipe entitas, diperlukan untuk menangani kasus ini.
 
-**Signifikansi, dengan koreksi penting.** Angka di atas dihitung dengan pola yang sengaja longgar (terutama OBJEK dan PELAKU), sehingga **cenderung melebihkan** dan bersifat **estimasi**, bukan *ground truth*. Selisih dengan pembanding Play Store (30,4% berbanding 3,0% untuk minimal tiga tipe) **tidak** dijadikan bukti, karena pola pelaku, platform, modus, dan nominal juga dipakai aturan seleksi, dan kandidat korban rata-rata dua kali lebih panjang. Yang dapat dilaporkan adalah prevalensi deskriptif di dalam kandidat korban. Pada X, pembanding bukan kontrol netral karena berasal dari kueri penipuan yang sama, sehingga perbandingan X tidak ditafsirkan. Karena CRF berbasis BIO sanggup menangani beberapa entitas **terpisah** (*disjoint*) dalam satu kalimat, angka multientitas **bukan** bukti kebutuhan GlobalPointer. Yang tidak bisa ditangani CRF hanyalah **tumpang tindih sejati** (*true overlap/nesting*). Karena itu:
+**Signifikansi, dengan koreksi penting.** Angka di atas dihitung dengan pola yang sengaja longgar (terutama OBJEK dan PELAKU), sehingga **cenderung melebihkan** dan bersifat **estimasi**, bukan *ground truth*. Selisih dengan pembanding Play Store (30,4% berbanding 3,0% untuk minimal tiga tipe) **tidak** dijadikan bukti, karena pola pelaku, platform, modus, dan nominal juga dipakai aturan seleksi, dan kandidat keluhan penipuan rata-rata dua kali lebih panjang. Yang dapat dilaporkan adalah prevalensi deskriptif di dalam kandidat keluhan penipuan. Pada X, pembanding bukan kontrol netral karena berasal dari kueri penipuan yang sama, sehingga perbandingan X tidak ditafsirkan. Karena CRF berbasis BIO sanggup menangani beberapa entitas **terpisah** (*disjoint*) dalam satu kalimat, angka multientitas **bukan** bukti kebutuhan GlobalPointer. Yang tidak bisa ditangani CRF hanyalah **tumpang tindih sejati** (*true overlap/nesting*). Karena itu:
 > - Kandidat bertumpuk 15,5% disajikan sebagai batas atas kasar, bukan sebagai bukti.
 > - Tingkat **overlap sejati** akan **dilaporkan setelah pilot anotasi ganda**, dan angka inilah yang menjadi justifikasi kuantitatif decoder *span-based*.
 > - Justifikasi Efficient GlobalPointer tetap kokoh dari tiga dasar lain: menangani *overlap* sejati, menghilangkan *cascade error* CRF, dan efisiensi parameter (lihat Bagian 5 dan 7).
@@ -156,15 +156,15 @@ Contoh konkret dari data (Shopee, IMPERSONATION_EXTORTION):
 
 | Kelompok | Token kata terpecah (IndoBERT) | *Subword* per kata (IndoBERT) | Token kata terpecah (IndoBERTweet) |
 |---|---|---|---|
-| Korban Play Store | 8,8% | 1,11 | 5,6% |
+| Kandidat Play Store | 8,8% | 1,11 | 5,6% |
 | Pembanding Play Store | 10,2% | 1,12 | 6,6% |
-| Korban X | 12,2% | 1,15 | 6,8% |
+| Kandidat X | 12,2% | 1,15 | 6,8% |
 | Pembanding X | 13,1% | 1,16 | 8,1% |
 | Wikipedia (formal) | 14,6% | 1,22 | 20,5% |
 
-Token [UNK] tidak muncul sama sekali (0%). Keluhan korban justru **lebih sedikit** terpecah daripada teks pembanding: selisih −1,4 poin persen pada Play Store (IK 95% −1,6 sampai −1,1) dan −0,8 poin persen pada X (IK 95% −1,5 sampai −0,2).
+Token [UNK] tidak muncul sama sekali (0%). Keluhan penipuan justru **lebih sedikit** terpecah daripada teks pembanding: selisih −1,4 poin persen pada Play Store (IK 95% −1,6 sampai −1,1) dan −0,8 poin persen pada X (IK 95% −1,5 sampai −0,2).
 
-**Kata khas korban.** Analisis *log-odds* dengan *prior* Dirichlet (Monroe et al., 2008) menemukan 244 kata yang lebih khas pada kandidat korban Play Store dibanding pembanding (kata kunci seleksi dikeluarkan). Dari 200 kata khas teratas, 16,0% dipecah IndoBERT dibanding 13,0% pada kata pembanding berfrekuensi setara (selisih +3,0 poin persen; IK 95% −4,0 sampai +10,0; **tidak bermakna**). Pada IndoBERTweet, selisihnya bermakna: 14,5% dibanding 2,5% (IK 95% +7,0 sampai +17,5 poin persen). Contoh pemecahan oleh IndoBERT: *carousell* (car ##ouse ##ll), *kredivo* (kred ##iv ##o), *kebobolan* (kebo ##bola ##n), *penipunya* (penipu ##nya). Pemecahan ini sebagian besar berupa nama merek dan afiks, bukan potongan acak tanpa makna. Analisis yang sama pada X hanya menghasilkan 26 kata khas, terlalu sedikit untuk disimpulkan.
+**Kata khas keluhan penipuan.** Analisis *log-odds* dengan *prior* Dirichlet (Monroe et al., 2008) menemukan 244 kata yang lebih khas pada kandidat keluhan penipuan Play Store dibanding pembanding (kata kunci seleksi dikeluarkan). Dari 200 kata khas teratas, 16,0% dipecah IndoBERT dibanding 13,0% pada kata pembanding berfrekuensi setara (selisih +3,0 poin persen; IK 95% −4,0 sampai +10,0; **tidak bermakna**). Pada IndoBERTweet, selisihnya bermakna: 14,5% dibanding 2,5% (IK 95% +7,0 sampai +17,5 poin persen). Contoh pemecahan oleh IndoBERT: *carousell* (car ##ouse ##ll), *kredivo* (kred ##iv ##o), *kebobolan* (kebo ##bola ##n), *penipunya* (penipu ##nya). Pemecahan ini sebagian besar berupa nama merek dan afiks, bukan potongan acak tanpa makna. Analisis yang sama pada X hanya menghasilkan 26 kata khas, terlalu sedikit untuk disimpulkan.
 
 **Kesimpulan.** Rumusan awal "IndoBERT memecah kosakata penipuan menjadi *subword* acak" **tidak didukung** dan tidak dipakai lagi. Dua catatan: (1) token gabungan angka dan huruf (*2jt*, *500rb*, *hati2*) belum diukur fragmentasinya karena dikeluarkan dari analisis kata alfabetis; (2) fragmentasi rendah tidak berarti makna dipahami model.
 
@@ -183,7 +183,7 @@ Masalah lain dari data **tidak dijawab arsitektur** (atau hanya sebagian) dan di
 
 ### 3.9 Keterbatasan data prapenelitian
 
-(1) Ketepatan kandidat korban belum diukur. (2) Data X dikumpulkan dengan kueri bertarget sehingga tidak mewakili seluruh keluhan di X, dan pembanding X bukan kontrol netral. (3) Deteksi entitas, nominal, dan kata tidak baku berbasis pola dan kamus, sehingga bersifat perkiraan. (4) Data telah dipseudonim dengan format sama. (5) Wikipedia hanya mewakili ragam formal dan kemungkinan termasuk data pralatih model, sehingga perbandingan yang adil untuk efek domain adalah korban terhadap pembanding dari platform yang sama.
+(1) Ketepatan kandidat keluhan penipuan belum diukur. (2) Data X dikumpulkan dengan kueri bertarget sehingga tidak mewakili seluruh keluhan di X, dan pembanding X bukan kontrol netral. (3) Deteksi entitas, nominal, dan kata tidak baku berbasis pola dan kamus, sehingga bersifat perkiraan. (4) Data telah dipseudonim dengan format sama. (5) Wikipedia hanya mewakili ragam formal dan kemungkinan termasuk data pralatih model, sehingga perbandingan yang adil untuk efek domain adalah kandidat terhadap pembanding dari platform yang sama.
 
 ---
 
@@ -247,7 +247,7 @@ Konsekuensi untuk pembelaan celah:
 
 ## 5. Metode yang Sudah Ada dan Keterbatasannya
 
-Bagian ini memetakan penelitian terdahulu dalam dua kelompok. Tabel pertama (NER bahasa Indonesia) menunjukkan apa yang sudah dikerjakan pada teks Indonesia. Tabel kedua (NER global lintas bahasa) menunjukkan bahwa ragam media sosial, fitur tingkat huruf, dan dekoder *span* untuk entitas bertumpuk sudah punya dasar, yang melandasi pemilihan IndoBERTweet, CharCNN, dan Efficient GlobalPointer. Berdasarkan penelusuran literatur penulis, yang belum ditemukan adalah data NER keluhan korban penipuan daring dan pengujian gabungan komponen tersebut pada teks informal berbahasa Indonesia.
+Bagian ini memetakan penelitian terdahulu dalam dua kelompok. Tabel pertama (NER bahasa Indonesia) menunjukkan apa yang sudah dikerjakan pada teks Indonesia. Tabel kedua (NER global lintas bahasa) menunjukkan bahwa ragam media sosial, fitur tingkat huruf, dan dekoder *span* untuk entitas bertumpuk sudah punya dasar, yang melandasi pemilihan IndoBERTweet, CharCNN, dan Efficient GlobalPointer. Berdasarkan penelusuran literatur penulis, yang belum ditemukan adalah data NER keluhan penipuan daring dan pengujian gabungan komponen tersebut pada teks informal berbahasa Indonesia.
 
 ### NER Bahasa Indonesia
 
@@ -261,7 +261,7 @@ Bagian ini memetakan penelitian terdahulu dalam dua kelompok. Tabel pertama (NER
 | Ekstraksi entitas orang bertumpuk (*nested*; CRF, BiLSTM-CRF, IndoBERT) | Terjemahan Al-Qur'an berbahasa Indonesia, entitas orang | Tidak dicantumkan di sini (hanya abstrak yang diperiksa); BiLSTM-CRF terbaik, CRF kesulitan pada entitas bertumpuk | Teks formal, hanya satu jenis entitas (orang), bukan domain penipuan, jumlah tingkat tumpukan dan keterbukaan set data belum diverifikasi | Dzidny, Bijaksana & Lhaksmana, 2022 (*BITS* 4(1): 241 sampai 246) |
 | GLiNER bahasa Indonesia (berbasis *span*, diberi label lewat *prompt*) | NER Indonesia umum | Lihat makalah (*ETASR*) | Ragam teks tidak dirinci di sini, mampu menangani entitas bertumpuk secara arsitektur, belum diuji pada entitas bertumpuk informal maupun keluhan penipuan | GLiNER-ID (*ETASR*) |
 
-> **Kesimpulan.** Penelitian NER berbahasa Indonesia telah mencakup domain keuangan personal, hukum, berita, kriminal, dan kripto, termasuk teks media sosial. Namun, berdasarkan penelusuran literatur yang dilakukan penulis, dua hal belum ditemukan. Pertama, dataset NER untuk keluhan korban penipuan daring. Kedua, dataset dan evaluasi NER untuk entitas bertumpuk (*nested*), yaitu entitas yang memuat entitas lain di dalamnya (misalnya nama platform di dalam nama akun), pada teks informal. Penelitian entitas bertumpuk yang teridentifikasi baru menggunakan teks formal dengan satu jenis entitas (Dzidny dkk., 2022). Kedua hal tersebut menjadi celah penelitian yang dijawab dalam penelitian ini.
+> **Kesimpulan.** Penelitian NER berbahasa Indonesia telah mencakup domain keuangan personal, hukum, berita, kriminal, dan kripto, termasuk teks media sosial. Namun, berdasarkan penelusuran literatur yang dilakukan penulis, dua hal belum ditemukan. Pertama, dataset NER untuk keluhan penipuan daring. Kedua, dataset dan evaluasi NER untuk entitas bertumpuk (*nested*), yaitu entitas yang memuat entitas lain di dalamnya (misalnya nama platform di dalam nama akun), pada teks informal. Penelitian entitas bertumpuk yang teridentifikasi baru menggunakan teks formal dengan satu jenis entitas (Dzidny dkk., 2022). Kedua hal tersebut menjadi celah penelitian yang dijawab dalam penelitian ini.
 
 ### NER Global (Lintas Bahasa)
 
@@ -309,7 +309,7 @@ Rincian MGA dari teks lengkap makalah:
 
 Kode MGBERT tidak publik, dan dimensi serta ukuran kernel CA tidak dirinci di makalah, sehingga reimplementasi disusun dari persamaan makalah dengan pilihan hiperparameter sendiri.
 
-### Kekurangan *baseline* untuk keluhan korban berbahasa Indonesia
+### Kekurangan *baseline* untuk keluhan penipuan berbahasa Indonesia
 
 | No | Komponen MGBERT | Kekurangan | Bukti |
 |---|---|---|---|
@@ -352,7 +352,7 @@ Teks keluhan → IndoBERTweet lapisan 1 → [CharCNN (huruf dalam kata) + Leksik
 
 ### Komponen
 
-**1. IndoBERTweet** (`indolem/indobertweet-base-uncased`). Encoder 12 lapis yang dilatih lanjut pada tweet Indonesia. Prapenelitian menunjukkan IndoBERTweet memecah kata keluhan korban lebih sedikit daripada IndoBERT (5,6% vs 8,8% token terpecah pada Play Store).
+**1. IndoBERTweet** (`indolem/indobertweet-base-uncased`). Encoder 12 lapis yang dilatih lanjut pada tweet Indonesia. Prapenelitian menunjukkan IndoBERTweet memecah kata keluhan penipuan lebih sedikit daripada IndoBERT (5,6% vs 8,8% token terpecah pada Play Store).
 
 **2. CharCNN.** Untuk setiap kata w dengan huruf c₁ ... c_m:
 
@@ -445,7 +445,7 @@ Nama "B-Tweet" dipakai di seluruh dokumen. Bila *encoder* terpilih di Tahap 1 bu
 - **Penalaan:** anggaran yang sama untuk setiap susunan (misalnya *learning rate* 1e-5, 2e-5, 3e-5, dan 5e-5 pada data validasi), dengan *early stopping* pada F1 validasi.
 - **Adaptor diperlakukan setara:** CA, CharCNN, dan leksikon memakai inisialisasi proyeksi yang sama (awal nol, sehingga keluaran awal identik dengan *baseline*) dan penalaan *learning rate* adaptor yang sama.
 - **Dokumen panjang:** semua susunan memakai *sliding window* yang sama, dengan penggabungan prediksi yang sama pula, termasuk untuk CRF dan *biaffine*.
-- **Prasyarat data:** ketepatan seleksi korban (sampel cek per sumber, interval Wilson 95%) dan pilot anotasi ganda dipenuhi sebelum eksperimen utama (Lampiran A).
+- **Prasyarat data:** ketepatan seleksi keluhan penipuan (sampel cek per sumber, interval Wilson 95%) dan pilot anotasi ganda dipenuhi sebelum eksperimen utama (Lampiran A).
 - **Metrik:** F1 total (*micro*, *strict span*) dan per tipe entitas; F1 subset (varian ejaan nama, nominal informal, entitas bertumpuk, entitas di luar data latih, kata ambigu); galat batas; waktu latih dan parameter tambahan. Perbandingan memakai uji *paired bootstrap* di dalam satu notebook.
 - **Jumlah pengulangan:** ditetapkan kemudian. Rencana ini hanya menentukan apa yang diuji dan untuk apa.
 
@@ -542,11 +542,11 @@ Susunan wajib berjumlah 13: 3 *encoder* (B-mBERT, B-Indo, B-Tweet), 4 kepala tam
 | GLiNER ringkas (ETASR) | NER *span* bahasa Indonesia | Bukan EGP; bukan teks keluhan |
 | Pencocokan kamus toleran (Cohen & Sarawagi, 2004; Rijhwani et al., 2020; NetEase.AI, 2023) | Kemiripan string atau skor kontinu untuk kamus pada CRF, BiLSTM, atau koreksi teks | Bukan di dalam adaptor model kelas MGBERT dengan EGP; **pencocokan toleran sendiri bukan ide baru** |
 | TWBiL (Zainuddin et al., 2025) | Word2Vec + Bi-LSTM + Transformer + *attention* | Label per kata, teks berita formal |
-| CrimeNER (2026), AttackER (2024) | NER teks kejahatan dan keamanan siber | Teks resmi (siaran pers, laporan siber), bukan keluhan korban |
+| CrimeNER (2026), AttackER (2024) | NER teks kejahatan dan keamanan siber | Teks resmi (siaran pers, laporan siber), bukan keluhan pengguna |
 
 ### Klaim kebaruan yang aman
 
-1. **Objek dan data (celah global):** sejauh penelusuran, belum ditemukan NER pada **keluhan korban penipuan online yang ditulis langsung oleh pengguna**, dalam bahasa apa pun. Penelitian sejenis memakai teks resmi (CrimeNER, AttackER) atau memperlakukan penipuan sebagai klasifikasi dokumen (Arifman et al., 2026).
+1. **Objek dan data (celah global):** sejauh penelusuran, belum ditemukan NER pada **keluhan penipuan online yang ditulis langsung oleh pengguna**, dalam bahasa apa pun. Penelitian sejenis memakai teks resmi (CrimeNER, AttackER) atau memperlakukan penipuan sebagai klasifikasi dokumen (Arifman et al., 2026).
 2. **Skema entitas:** lima tipe entitas penipuan dengan tumpukan terbatas (PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS).
 3. **Arsitektur (bersyarat ablasi):** belum ditemukan dalam penelusuran kombinasi encoder media sosial Indonesia + CharCNN tingkat huruf + pencocokan leksikon toleran di dalam adaptor + Efficient GlobalPointer. Kombinasi ini bukan kebaruan utama; semua komponennya sudah dikenal, termasuk pencocokan toleran.
 
@@ -560,12 +560,12 @@ Sebelum sidang, ulangi penelusuran sistematis di Scopus untuk setiap pasangan ko
 
 | Kode | Kontribusi | Status |
 |---|---|---|
-| **K1** | Dataset dan skema NER keluhan korban penipuan online berbahasa Indonesia (lima tipe, tumpukan terbatas), panduan anotasi, dan ukuran reliabilitas | **Klaim utama** |
+| **K1** | Dataset dan skema NER keluhan penipuan online berbahasa Indonesia (lima tipe, tumpukan terbatas), panduan anotasi, dan ukuran reliabilitas | **Klaim utama** |
 | **K2** | Evaluasi ketat: perbandingan encoder, kepala *span* vs CRF, fitur karakter vs leksikon toleran, dengan beberapa *seed*, uji berpasangan, dan metrik subset | **Klaim utama** |
 | K3 | Pertanyaan penelitian: apakah *Character Adapter* MGBERT-Pointer berfungsi pada teks Indonesia informal, dan apakah CharCNN tingkat huruf lebih baik darinya? | **Bersyarat** H1 dan H2; hasil negatif tetap dilaporkan |
 | K4 | Pertanyaan penelitian: apakah Leksikon Toleran lebih baik dari *Lexicon Adapter* persis untuk varian ejaan nama? | **Bersyarat** H2, H3, H4, dan H5 |
 
-Kontribusi lintas domain: data terstruktur dari keluhan korban (pelaku, platform, nominal, modus) dapat dipakai untuk pemetaan modus, pelacakan platform yang sering dicatut, dan dukungan bagi kanal pelaporan resmi seperti cekrekening.id dan Patrolisiber.id.
+Kontribusi lintas domain: data terstruktur dari keluhan penipuan (pelaku, platform, nominal, modus) dapat dipakai untuk pemetaan modus, pelacakan platform yang sering dicatut, dan dukungan bagi kanal pelaporan resmi seperti cekrekening.id dan Patrolisiber.id.
 
 ---
 
@@ -585,7 +585,7 @@ Kontribusi lintas domain: data terstruktur dari keluhan korban (pelaku, platform
 | **Kalau IndoBERTweet + EGP saja sudah cukup?** | Itu diuji langsung (B-Tweet vs Usulan). Bila CharCNN tidak signifikan, hasil itu dilaporkan apa adanya dan tesis bertumpu pada dataset dan evaluasi (K1, K2). |
 | **CharCNN gagal pada *buka lapak*?** | Benar, karena CharCNN membaca per kata. Karena itu Leksikon Toleran ditambahkan, yang menormalkan spasi. Varian berspasi sebagian besar ada di Play Store; hasilnya diukur di subset varian ejaan (H2). |
 | **Bagaimana kata *dana*?** | Ditangani konteks encoder. CharCNN tidak membantu karena hurufnya sama, dan leksikon justru berisiko menandainya sebagai nama (LA persis −3,28 poin di simulasi). Akurasi kata ambigu diukur sebagai H4. |
-| **Apa kebaruannya kalau semua komponen sudah ada?** | Kebaruan utama ada pada objek dan data (keluhan korban, celah global) serta skema entitas. Kombinasi arsitektur hanya kebaruan pendukung yang dibuktikan dengan ablasi. |
+| **Apa kebaruannya kalau semua komponen sudah ada?** | Kebaruan utama ada pada objek dan data (keluhan penipuan, celah global) serta skema entitas. Kombinasi arsitektur hanya kebaruan pendukung yang dibuktikan dengan ablasi. |
 | **Bagaimana teks yang panjang?** | *Sliding window* dengan tumpang tindih di prapemrosesan; arsitekturnya tidak berubah. |
 | **Label dari AI?** | Hanya pra-anotasi. Setiap dokumen diperiksa anotator manusia, dan kesepakatan antaranotator diukur. |
 
@@ -599,7 +599,7 @@ Tabel berikut merangkum 15 artikel ilmiah paling relevan dari tahun 2023 ke atas
 |----|---------------------------------|-------------------|---------------------|-----------------|-------------------------|------------|
 | 1 | **A hybrid machine learning approach for classifying Indonesian cybercrime discourse using a localized threat taxonomy** / Arifman, Mantoro & Handayani (2026) / *Information* (MDPI), Scopus Q2 | Wacana kejahatan siber berbahasa Indonesia di media sosial (X dan YouTube); taksonomi ancaman internasional (ENISA) tidak menangkap ancaman khas Indonesia | Taksonomi ICTT lima dimensi; label lemah dari pola regex (2.344 sampel); IndoBERT di-*fine-tune*; klasifikasi *hybrid* aturan + ML | Akurasi 96,8% pada 600 sampel beranotasi manual (IndoBERT saja juga 96,8%; berbasis aturan 66,7%); dari 124 sampel yang sah diklasifikasikan ke ICTT, 85 (68,5%) termasuk ancaman khas Indonesia, yaitu *phishing* WhatsApp (46) dan penipuan *deepfake* (39) | **Objek paling dekat**: teks kejahatan siber Indonesia di X. Riset penipuan berbahasa Indonesia baru sampai **klasifikasi**, belum **ekstraksi entitas**: celah objek tesis ini (K1) | [DOI](https://doi.org/10.3390/info17030301) |
 | 2 | **IPerFEX-2023: Indonesian personal financial entity extraction using IndoBERT-BiGRU-CRF model** / Dave & Chowanda (2024) / *Journal of Big Data*, Scopus Q1 | NER finansial personal dari diskusi harian Indonesia; entitas numerik; 15 tipe entitas keuangan | IndoBERT (sebagai fitur, *feature-based*) + BiGRU + CRF; dataset dari Quora, ragam campuran formal dan percakapan | F1 makro 0,73 pada IPerFEX-*small* (1.857 kalimat, 1.299 kalimat latih), terbaik; turun menjadi 0,69 pada IPerFEX-*large* (2.645 kalimat) setelah 552 kalimat latih ditambahkan (Tabel 3 dan 7) | NER Indonesia pada teks **percakapan informal** dengan entitas **nominal**, mirip NOMINAL. Pembanding *decoder* CRF (susunan B-CRF) dan bukti bahwa data berlabel kecil membatasi kinerja (M1) | [Springer](https://link.springer.com/article/10.1186/s40537-024-00987-6) |
-| 3 | **Information extraction from Indonesian crime news with named entity recognition** / Roy Rachman Sedik & Ade Romadhony (2023) / *Proc. 15th KST 2023* (IEEE) | Ekstraksi jenis, lokasi, dan waktu kejahatan dari berita *online* Indonesia; teks formal | **Kombinasi NER dan *Support Vector Machine* (SVM)** untuk mengekstrak lokasi dan waktu kejadian, lalu klasifikasi jenis kejahatan | F1 jenis kejahatan 92%; lokasi 90,8% (P 92,5%, R 89,2%); tanggal 94,1% | Satu-satunya ekstraksi informasi Indonesia pada domain **kriminal**; teks berita formal dengan tipe entitas umum dan metode non-*transformer*, bukan keluhan korban. Angka dicocokkan dengan abstrak tesis S2 penulis yang sama, karena teks lengkap makalah IEEE belum terbaca | [DOI](https://doi.org/10.1109/KST57286.2023.10086789) |
+| 3 | **Information extraction from Indonesian crime news with named entity recognition** / Roy Rachman Sedik & Ade Romadhony (2023) / *Proc. 15th KST 2023* (IEEE) | Ekstraksi jenis, lokasi, dan waktu kejahatan dari berita *online* Indonesia; teks formal | **Kombinasi NER dan *Support Vector Machine* (SVM)** untuk mengekstrak lokasi dan waktu kejadian, lalu klasifikasi jenis kejahatan | F1 jenis kejahatan 92%; lokasi 90,8% (P 92,5%, R 89,2%); tanggal 94,1% | Satu-satunya ekstraksi informasi Indonesia pada domain **kriminal**; teks berita formal dengan tipe entitas umum dan metode non-*transformer*, bukan keluhan pengguna. Angka dicocokkan dengan abstrak tesis S2 penulis yang sama, karena teks lengkap makalah IEEE belum terbaca | [DOI](https://doi.org/10.1109/KST57286.2023.10086789) |
 | 4 | **Named entity recognition on Indonesian legal documents: a dataset and study using transformer-based models** / Yulianti et al. (2024) / *IJECE* 14(5), Scopus Q3 | NER dokumen hukum Indonesia (putusan pengadilan) | Komparasi IndoBERT, IndoRoBERTa, XLM-R, M-BERT pada IndoLER | F1 = 0,9295 (XLM-R terbaik); teks formal | Preseden **pembangunan dataset NER domain baru** berbahasa Indonesia (K1) dan **perbandingan *encoder*** (dasar susunan B-Indo vs B-Tweet). XLM-R terbaik di sini, sehingga layak dipertimbangkan sebagai pembanding | [DOI](https://doi.org/10.11591/ijece.v14i5.pp5489-5501) |
 | 5 | **Biomedical named entity recognition based on multi-cross attention feature fusion** / Zheng, Han, Yu & Li (2024) / *PLOS ONE* 19(5): e0304329, Scopus Q1 | NER biomedis berbahasa Inggris; CharCNN dan CharRNN biasanya dipakai terpisah dan hanya disambung ke fitur kata, sehingga interaksi fitur kata dan huruf diabaikan | DistilBioBERT (fitur kata) + **CharCNN** dan CharLSTM (fitur huruf), difusikan tiga kali dengan *cross-attention*, lalu BiLSTM + *multi-head attention*; *loss* gabungan *cross-entropy* + *Focal Loss* | F1 90,76% (NCBI-Disease), 89,79% (BC5CDR-Disease), 94,98% (BC5CDR-Chem), 80,27% (JNLPBA), 88,84% (BC2GM). Pada uji modul BC5CDR-Disease, CharCNN unggul atas CharLSTM bila dipakai sendiri | Satu-satunya bukti 2023 ke atas yang ditemukan untuk **fitur huruf CharCNN di atas *encoder transformer*** pada aksara Latin (masalah 02 dan 03). Perbedaan dengan usulan: fusi *cross-attention* di atas keluaran *encoder* (bukan aditif di antara lapisan 1 dan 2), domain formal, dan bukan *decoder span*. Dipakai sebagai bukti mekanisme, bukan bukti domain | [DOI](https://doi.org/10.1371/journal.pone.0304329) |
 | 6 | **KnowCTI: Knowledge-based cyber threat intelligence entity and relation extraction** / Wang et al. (2024) / *Computers & Security* 141: 103824, Scopus Q1 | Ekstraksi entitas dan relasi CTI; model NLP umum tidak memahami semantik keamanan siber | *Knowledge base* siber + GAT + *gate mechanism* + BERT; entitas didekode sebagai pelabelan sekuens dengan CRF | F1 makro entitas 90,16% (P 92,96%, R 87,52%), relasi 81,83%; unggul 9,75 poin atas BERT-BiLSTM-CRF (Tabel 3) | **Preseden injeksi pengetahuan domain eksternal** pada ekstraksi entitas siber (bukan pencocokan kamus, sehingga **bukan** dasar langsung Leksikon Toleran). Mekanisme gerbangnya sejalan dengan LC-Gate yang gugur pada uji simulasi, sehingga artikel ini juga menjadi pembanding mengapa usulan memakai fusi aditif | [DOI](https://doi.org/10.1016/j.cose.2024.103824) |
@@ -659,11 +659,11 @@ Setiap komponen arsitektur kini didukung minimal satu artikel 2023 ke atas: Indo
 
 ### Pola yang Muncul dari 15 Artikel SOTA
 
-**P1: NER bahasa Indonesia masih jauh dari matang untuk domain penipuan.** Budi & Suryono (2023) menemukan nol paper tentang domain penipuan online dari 241 dokumen awal; paper 2 (Dave & Chowanda, 2024) hanya mencapai F1 = 0,73 untuk domain keuangan; paper 3 dan 4 menunjukkan bahwa ekstraksi entitas Indonesia baru matang untuk teks formal (berita kriminal dengan NER + SVM, dan dokumen hukum dengan *transformer*). Data prapenelitian (Bagian 3) menegaskan jarak ragam itu: 74,9% sampai 92,9% keluhan korban memuat kata tidak baku, dibanding 2,4% teks Wikipedia.
+**P1: NER bahasa Indonesia masih jauh dari matang untuk domain penipuan.** Budi & Suryono (2023) menemukan nol paper tentang domain penipuan online dari 241 dokumen awal; paper 2 (Dave & Chowanda, 2024) hanya mencapai F1 = 0,73 untuk domain keuangan; paper 3 dan 4 menunjukkan bahwa ekstraksi entitas Indonesia baru matang untuk teks formal (berita kriminal dengan NER + SVM, dan dokumen hukum dengan *transformer*). Data prapenelitian (Bagian 3) menegaskan jarak ragam itu: 74,9% sampai 92,9% keluhan penipuan memuat kata tidak baku, dibanding 2,4% teks Wikipedia.
 
 **P2: Fitur karakter dan *decoder* span keluarga GlobalPointer sudah ada, tetapi terpisah dan belum pada teks Latin informal berbahasa Indonesia.** Paper 8 (MGBERT-Pointer) memakai *Character Adapter* atas karakter kalimat + EGP, hanya dievaluasi pada teks Tionghoa; paper 11 memakai fusi fitur berbutir halus + EGP untuk entitas bersarang dengan data terbatas, juga pada bahasa Tionghoa. Pada aksara Latin, paper 5 menunjukkan CharCNN masih dipakai bersama *encoder transformer* (2024), tetapi pada teks biomedis formal, dengan fusi *cross-attention* dan tanpa *decoder span*. Karena itu **gabungan komponen ini bukan klaim kebaruan utama**; kebaruan ada pada objek dan data (P3), sedangkan kegunaan CharCNN dan Leksikon Toleran di posisi adaptor MGBERT diuji lewat ablasi (K3 dan K4 bersyarat).
 
-**P3: Riset penipuan berbahasa Indonesia baru sampai klasifikasi, dan IndoBERTweet baru teruji untuk klasifikasi.** Paper 1 (Arifman et al., 2026) adalah karya terdekat dari sisi objek, tetapi tugasnya klasifikasi wacana. Paper 13 memakai IndoBERTweet pada teks X Indonesia, juga untuk klasifikasi, dan menormalkan kata tidak baku sebelum masuk model. Dalam penelusuran belum ditemukan artikel Scopus 2023 ke atas yang menguji IndoBERTweet untuk NER, dan belum ditemukan dataset NER beranotasi untuk keluhan korban penipuan online berbahasa Indonesia, apalagi dengan entitas bertumpuk terbatas (PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS). Inilah dasar kontribusi utama K1 (dataset dan skema) dan K2 (evaluasi ketat), termasuk perbandingan B-Indo vs B-Tweet pada teks yang **tidak** dinormalkan.
+**P3: Riset penipuan berbahasa Indonesia baru sampai klasifikasi, dan IndoBERTweet baru teruji untuk klasifikasi.** Paper 1 (Arifman et al., 2026) adalah karya terdekat dari sisi objek, tetapi tugasnya klasifikasi wacana. Paper 13 memakai IndoBERTweet pada teks X Indonesia, juga untuk klasifikasi, dan menormalkan kata tidak baku sebelum masuk model. Dalam penelusuran belum ditemukan artikel Scopus 2023 ke atas yang menguji IndoBERTweet untuk NER, dan belum ditemukan dataset NER beranotasi untuk keluhan penipuan online berbahasa Indonesia, apalagi dengan entitas bertumpuk terbatas (PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS). Inilah dasar kontribusi utama K1 (dataset dan skema) dan K2 (evaluasi ketat), termasuk perbandingan B-Indo vs B-Tweet pada teks yang **tidak** dinormalkan.
 
 **P4: Jalur leksikon padat dan berisiko pada teks bising, sehingga leksikon dipakai bersyarat.** Paper 6, 7, dan 9 menunjukkan bahwa menyuntikkan kamus atau pengetahuan eksternal adalah jalur yang ramai, dengan perbaikan umumnya pada pembobotan atau gerbang (KnowCTI, SLEBERT, LB-BMBC). Pencocokan kamus toleran sudah ada di model lain (Cohen & Sarawagi, 2004; Rijhwani et al., 2020; Lu et al., 2023). Uji kelayakan pada data simulasi menunjukkan LA toleran lebih baik dari persis, tetapi semua susunan berkamus menurunkan *recall* entitas di luar kamus, dan gerbang kontekstual tidak lebih baik dari gerbang konstan. Karena itu usulan memakai Leksikon Toleran dengan fusi aditif, **tanpa klaim kebaruan pencocokan**, hanya sebagai komponen yang kegunaannya dan risikonya diukur lewat H2, H4, dan H5.
 
@@ -805,53 +805,53 @@ Lampiran ini memuat metode dan keputusan anotasi di balik angka Bagian 3. Seluru
 
 ### A.1 Korpus dan desain analisis
 
-| Sumber | Terkumpul | Lolos pembersihan | Kandidat keluhan korban |
+| Sumber | Terkumpul | Lolos pembersihan | Kandidat keluhan penipuan |
 |---|---|---|---|
 | Ulasan Play Store bintang 1 dan 2 (27 aplikasi, 4 sektor: *e-commerce*, media sosial, dompet digital, *fintech*) | 659.845 | 514.254 | 3.531 |
 | X (Twitter), kueri bertarget berlapis Q1 sampai Q8 | 4.391 | 3.997 | 2.501 |
 | **Total kandidat** | | | **6.032** |
 
-Kandidat keluhan korban dipilih dengan aturan narasi korban (S-06) yang mensyaratkan tiga hal sekaligus: narasi kejadian yang dialami penulis atau orang dekatnya, adanya pihak ketiga yang menipu, dan adanya kerugian atau upaya kerugian. Data pribadi dipseudonim dengan format sama sebelum dianalisis.
+Kandidat keluhan penipuan dipilih dengan aturan narasi kejadian (S-06) yang mensyaratkan tiga hal sekaligus: narasi kejadian yang dialami penulis atau orang dekatnya, adanya pihak ketiga yang menipu, dan adanya kerugian atau upaya kerugian. Data pribadi dipseudonim dengan format sama sebelum dianalisis.
 
-> **Status ketepatan: belum diukur.** Ketepatan aturan seleksi korban baru diketahui setelah sampel cek (300 dokumen per sumber) dilabeli V/W/T/O dan dihitung dengan interval Wilson. Sampai saat itu, semua angka di bawah berlaku untuk **kandidat** keluhan korban, bukan korpus korban terverifikasi, dan belum boleh dikutip sebagai angka final.
+> **Status ketepatan: belum diukur.** Ketepatan aturan seleksi baru diketahui setelah sampel cek (300 dokumen per sumber) dilabeli V/W/T/O dan dihitung dengan interval Wilson. Sampai saat itu, semua angka di bawah berlaku untuk **kandidat** keluhan penipuan, bukan korpus keluhan penipuan terverifikasi, dan belum boleh dikutip sebagai angka final.
 
-**Desain analisis.** Setiap angka korban dibandingkan dengan **teks pembanding dari platform yang sama** (20.000 sampel acak dari 510.723 ulasan pembanding Play Store; 1.496 tweet pembanding X), supaya efek ragam bahasa platform tidak tertukar dengan efek domain penipuan. Sebanyak 5.001 paragraf Wikipedia Indonesia dipakai sebagai rujukan teks formal. Selisih dianggap bermakna bila interval kepercayaan 95% (*bootstrap* 1.000 ulangan atau Wilson) tidak memuat nol **dan** selisihnya minimal 1 poin persen. *Tokenizer* yang diuji: IndoBERT (`indobenchmark/indobert-base-p1`) dan IndoBERTweet (`indolem/indobertweet-base-uncased`).
+**Desain analisis.** Setiap angka kandidat dibandingkan dengan **teks pembanding dari platform yang sama** (20.000 sampel acak dari 510.723 ulasan pembanding Play Store; 1.496 tweet pembanding X), supaya efek ragam bahasa platform tidak tertukar dengan efek domain penipuan. Sebanyak 5.001 paragraf Wikipedia Indonesia dipakai sebagai rujukan teks formal. Selisih dianggap bermakna bila interval kepercayaan 95% (*bootstrap* 1.000 ulangan atau Wilson) tidak memuat nol **dan** selisihnya minimal 1 poin persen. *Tokenizer* yang diuji: IndoBERT (`indobenchmark/indobert-base-p1`) dan IndoBERTweet (`indolem/indobertweet-base-uncased`).
 
-### A.2 Definisi kelompok: korban, kandidat korban, dan pembanding
+### A.2 Definisi kelompok: keluhan penipuan, kandidat, dan pembanding
 
-Istilah "korban" dan "bukan korban" mudah disalahpahami, jadi dokumen ini memakai tiga istilah yang dibedakan tegas.
+Istilah "keluhan penipuan" dan "bukan keluhan penipuan" mudah disalahpahami, jadi dokumen ini memakai tiga istilah yang dibedakan tegas.
 
-**Korban (definisi konseptual, dipakai saat pelabelan manusia, label V).** Teks yang **menceritakan kejadian penipuan online yang dialami penulis atau orang dekatnya**, dengan tiga syarat sekaligus: (1) ada narasi kejadian, bukan sekadar peringatan atau opini; (2) ada pihak ketiga yang menipu, menyamar, atau memanipulasi; (3) ada kerugian atau upaya kerugian (uang, akun, data). Peretasan akun atau saldo terkuras dihitung bila ada pelaku atau modus, atau ada kerugian nyata. Tagihan atas pinjaman yang tidak pernah diambil dihitung bila ada penagihan atau penyalahgunaan data. Yang **bukan** korban: peringatan atau tuduhan tanpa cerita (label W), keluhan teknis atau layanan seperti *error*, limit turun, biaya, dan permintaan hapus data (label T), serta lainnya (label O).
+**Keluhan penipuan (definisi konseptual, dipakai saat pelabelan manusia, label V).** Teks yang **menceritakan kejadian penipuan online yang dialami penulis atau orang dekatnya**, dengan tiga syarat sekaligus: (1) ada narasi kejadian, bukan sekadar peringatan atau opini; (2) ada pihak ketiga yang menipu, menyamar, atau memanipulasi; (3) ada kerugian atau upaya kerugian (uang, akun, data). Peretasan akun atau saldo terkuras dihitung bila ada pelaku atau modus, atau ada kerugian nyata. Tagihan atas pinjaman yang tidak pernah diambil dihitung bila ada penagihan atau penyalahgunaan data. Yang **bukan** keluhan penipuan menurut definisi ini: peringatan atau tuduhan tanpa cerita (label W), keluhan teknis atau layanan seperti *error*, limit turun, biaya, dan permintaan hapus data (label T), serta lainnya (label O).
 
 | Istilah dalam dokumen | Definisi operasional | Isi sebenarnya | Yang **tidak boleh** disimpulkan |
 |---|---|---|---|
-| **Kandidat korban** | Teks yang lolos aturan narasi korban S-06 (Tingkat A). Ditentukan **aturan**, bukan manusia | Sebagian besar narasi korban, tetapi masih memuat salah positif (peringatan, keluhan layanan) yang proporsinya **belum diukur** | Tidak boleh disebut "korban terverifikasi" |
-| **Pembanding Play Store** | Sampel acak 20.000 dari 510.723 ulasan bersih yang **tidak lolos** S-06 | Keluhan teknis dan layanan, ulasan umum, peringatan atau tuduhan penipuan (Tingkat B), **dan korban yang terlewat aturan** (jumlahnya belum diukur) | Tidak boleh disebut "bukan korban" atau "teks normal" |
-| **Pembanding X** | Seluruh 1.496 tweet hasil kueri penipuan yang tidak lolos S-06 | *Spill* rekening tanpa narasi, peringatan, diskusi atau berita penipuan, dan korban yang terlewat | Bukan kontrol netral; tidak ditafsirkan sebagai teks umum di X |
+| **Kandidat keluhan penipuan** | Teks yang lolos aturan narasi kejadian S-06 (Tingkat A). Ditentukan **aturan**, bukan manusia | Sebagian besar narasi kejadian penipuan, tetapi masih memuat salah positif (peringatan, keluhan layanan) yang proporsinya **belum diukur** | Tidak boleh disebut "keluhan penipuan terverifikasi" |
+| **Pembanding Play Store** | Sampel acak 20.000 dari 510.723 ulasan bersih yang **tidak lolos** S-06 | Keluhan teknis dan layanan, ulasan umum, peringatan atau tuduhan penipuan (Tingkat B), **dan keluhan penipuan yang terlewat aturan** (jumlahnya belum diukur) | Tidak boleh disebut "bukan keluhan penipuan" atau "teks normal" |
+| **Pembanding X** | Seluruh 1.496 tweet hasil kueri penipuan yang tidak lolos S-06 | *Spill* rekening tanpa narasi, peringatan, diskusi atau berita penipuan, dan keluhan penipuan yang terlewat | Bukan kontrol netral; tidak ditafsirkan sebagai teks umum di X |
 | **Rujukan formal** | 5.001 paragraf Wikipedia Indonesia | Teks ensiklopedis baku | Hanya rujukan ragam formal, bukan pembanding domain |
 
-Label "korban" dalam arti sebenarnya baru ada setelah pelabelan manusia (V/W/T/O) pada sampel cek. Sebelum itu, semua perbandingan adalah **kandidat korban terhadap pembanding**, bukan korban terhadap bukan korban.
+Label V dalam arti sebenarnya baru ada setelah pelabelan manusia (V/W/T/O) pada sampel cek. Sebelum itu, semua perbandingan adalah **kandidat keluhan penipuan terhadap pembanding**, bukan keluhan penipuan terhadap bukan keluhan penipuan.
 
 ### A.3 Risiko sirkularitas dan pembaur (wajib diakui)
 
-Perbandingan kandidat korban dengan pembanding **tidak netral** untuk semua indikator, karena kelompok dibentuk oleh aturan S-06 yang memakai sebagian indikator itu sebagai syarat seleksi.
+Perbandingan kandidat keluhan penipuan dengan pembanding **tidak netral** untuk semua indikator, karena kelompok dibentuk oleh aturan S-06 yang memakai sebagian indikator itu sebagai syarat seleksi.
 
-1. **Sirkularitas.** S-06 memakai ungkapan nominal, kata kerugian (*sudah transfer*, *uang hilang*), serta pola pelaku, platform, dan modus sebagai bukti narasi. Teks yang memuat nominal atau banyak unsur entitas karena itu **lebih mungkin lolos** sebagai kandidat korban. Akibatnya, selisih prevalensi nominal (23,2% berbanding 4,4%) dan multientitas (30,4% berbanding 3,0%) **sebagian dibuat oleh aturan seleksi itu sendiri** dan **tidak boleh** disebut ciri khas keluhan korban.
-2. **Pembaur panjang teks.** Median panjang kandidat korban Play Store 34 kata, sedangkan pembanding 15 kata. Teks yang lebih panjang lebih mungkin memuat nominal dan banyak entitas, sehingga persentase per dokumen ikut terdongkrak.
-3. **Indikator yang relatif aman.** Indikator yang diukur per token dan tidak dipakai aturan sebagai syarat (fragmentasi *subword*, proporsi token tidak baku, *pseudo-perplexity*) lebih aman dibandingkan. Proporsi format di dalam ungkapan nominal juga aman, dan hasilnya **sama** pada kedua kelompok (80,7% berbanding 80,4%), sehingga format nominal informal adalah sifat ragam platform, bukan khas korban.
-4. **Cara memperbaiki sebelum dikutip.** (a) Hitung ulang dengan normalisasi panjang (per 100 kata) atau sampel berpasangan dengan panjang setara. (b) Setelah pelabelan, bandingkan dokumen berlabel V dengan dokumen berlabel W, T, dan O dari sampel acak berlabel, karena label manusia tidak bergantung pada aturan seleksi. (c) Prevalensi deskriptif **di dalam** kandidat korban (mis. 23,2% memuat nominal, 30,4% memuat minimal tiga tipe entitas) tetap boleh dilaporkan tanpa klaim perbandingan.
+1. **Sirkularitas.** S-06 memakai ungkapan nominal, kata kerugian (*sudah transfer*, *uang hilang*), serta pola pelaku, platform, dan modus sebagai bukti narasi. Teks yang memuat nominal atau banyak unsur entitas karena itu **lebih mungkin lolos** sebagai kandidat keluhan penipuan. Akibatnya, selisih prevalensi nominal (23,2% berbanding 4,4%) dan multientitas (30,4% berbanding 3,0%) **sebagian dibuat oleh aturan seleksi itu sendiri** dan **tidak boleh** disebut ciri khas keluhan penipuan.
+2. **Pembaur panjang teks.** Median panjang kandidat keluhan penipuan Play Store 34 kata, sedangkan pembanding 15 kata. Teks yang lebih panjang lebih mungkin memuat nominal dan banyak entitas, sehingga persentase per dokumen ikut terdongkrak.
+3. **Indikator yang relatif aman.** Indikator yang diukur per token dan tidak dipakai aturan sebagai syarat (fragmentasi *subword*, proporsi token tidak baku, *pseudo-perplexity*) lebih aman dibandingkan. Proporsi format di dalam ungkapan nominal juga aman, dan hasilnya **sama** pada kedua kelompok (80,7% berbanding 80,4%), sehingga format nominal informal adalah sifat ragam platform, bukan khas keluhan penipuan.
+4. **Cara memperbaiki sebelum dikutip.** (a) Hitung ulang dengan normalisasi panjang (per 100 kata) atau sampel berpasangan dengan panjang setara. (b) Setelah pelabelan, bandingkan dokumen berlabel V dengan dokumen berlabel W, T, dan O dari sampel acak berlabel, karena label manusia tidak bergantung pada aturan seleksi. (c) Prevalensi deskriptif **di dalam** kandidat keluhan penipuan (mis. 23,2% memuat nominal, 30,4% memuat minimal tiga tipe entitas) tetap boleh dilaporkan tanpa klaim perbandingan.
 
 ### A.4 Temuan desain: PELAKU berupa pengenal hampir tidak ada
 
-| Indikator | Korban Play Store | Pembanding Play Store | Korban X | Pembanding X |
+| Indikator | Kandidat Play Store | Pembanding Play Store | Kandidat X | Pembanding X |
 |---|---|---|---|---|
 | Dokumen memuat nomor telepon atau deret angka minimal 10 digit | 0,0% (batas atas IK 0,11%) | 0,005% | 7,1% | 14,6% |
 
-Narasi laporan resmi yang kaya pengenal (misalnya *"rekening BCA 1234567890 ... wa 081234567890"*) **tidak mewakili** korpus ulasan Play Store. Konsekuensinya, **definisi PELAKU harus diputuskan sebelum panduan anotasi ditulis**: jika PELAKU hanya berupa pengenal (nomor rekening, telepon, akun), kelas ini nyaris kosong di Play Store dan hanya sekitar 7% di X. Pilihan yang dipertimbangkan adalah memasukkan pelaku deskriptif (*penjual*, *oknum yang mengaku CS*, nama toko) dan/atau menambah sumber laporan korban yang memuat pengenal. Tingginya angka pada pembanding X disebabkan tweet *spill* rekening yang tidak memuat narasi korban.
+Narasi laporan resmi yang kaya pengenal (misalnya *"rekening BCA 1234567890 ... wa 081234567890"*) **tidak mewakili** korpus ulasan Play Store. Konsekuensinya, **definisi PELAKU harus diputuskan sebelum panduan anotasi ditulis**: jika PELAKU hanya berupa pengenal (nomor rekening, telepon, akun), kelas ini nyaris kosong di Play Store dan hanya sekitar 7% di X. Pilihan yang dipertimbangkan adalah memasukkan pelaku deskriptif (*penjual*, *oknum yang mengaku CS*, nama toko) dan/atau menambah sumber laporan penipuan yang memuat pengenal. Tingginya angka pada pembanding X disebabkan tweet *spill* rekening yang tidak memuat narasi kejadian.
 
 ### A.5 Data tambahan
 
-Angka berikut dihitung dari berkas `ULASAN_KORBAN_PENIPUAN.jsonl` di `EKSPERIMEN/DATA/{PLAYSTORE,X}/KANDIDAT_KORBAN/` (nama asli sebelum penataan: `ulasan_korban_penipuan.jsonl`; Play Store 3.531 dan X 2.501 dokumen) dan pra-anotasi 1.000 dokumen X. Semuanya berlaku untuk **kandidat** keluhan korban, berasal dari pemindaian pola (perkiraan kasar, bukan anotasi), dan pra-anotasi hanya berupa label perak buatan AI.
+Angka berikut dihitung dari berkas `ULASAN_KORBAN_PENIPUAN.jsonl` di `EKSPERIMEN/DATA/{PLAYSTORE,X}/KANDIDAT_KORBAN/` (nama asli sebelum penataan: `ulasan_korban_penipuan.jsonl`; Play Store 3.531 dan X 2.501 dokumen) dan pra-anotasi 1.000 dokumen X. Semuanya berlaku untuk **kandidat** keluhan penipuan, berasal dari pemindaian pola (perkiraan kasar, bukan anotasi), dan pra-anotasi hanya berupa label perak buatan AI.
 
 | Topik | Temuan | Ditangani oleh |
 |---|---|---|
