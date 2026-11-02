@@ -1,8 +1,8 @@
 # Protokol Anotasi NER Keluhan Penipuan Online (untuk penulis)
 
-**Versi**: v0.1 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
+**Versi**: v0.2 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.2 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
+**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.3 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
 
 **Isi berkas ini**: status keputusan, prosedur anotasi oleh AI, pengukuran kualitas, pengendalian versi, dan log. Berkas ini **tidak** diberikan kepada anotator AI.
 
@@ -45,7 +45,7 @@ Lihat tabel "Peta berkas" di bagian atas berkas ini. Satu aturan, satu tempat: a
 | T2 | Tumpukan terbatas: PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS | Bagian 1, Lampiran A.5 |
 | T3 | PELAKU mencakup bentuk deskriptif dan pengenal | Lampiran A.5 |
 | T4 | Anotasi per dokumen; teks tidak dinormalkan | Lampiran A.5, Bagian 8 |
-| T5 | Batas MODUS sekitar 5 kata; PELAKU tanpa kata kerja | Bagian 3.8 |
+| T5 | Target MODUS 2 sampai 5 kata (batas keras 8); PELAKU berupa frasa nomina | Bagian 3.8 (rev8.3; rev8.2: "sekitar 5 kata; tanpa kata kerja") |
 | T6 | Pilot anotasi ganda 300 sampai 500 satuan, diukur sebelum eksperimen utama | Lampiran A.5, Bagian 8 |
 | T7 | Label AI hanya label awal; setiap dokumen diperiksa manusia; kesepakatan diukur | Bagian 11 |
 | T8 | Metrik utama F1 *micro strict span* | Bagian 4.4 |
@@ -56,7 +56,7 @@ Lihat tabel "Peta berkas" di bagian atas berkas ini. Satu aturan, satu tempat: a
 | ID | Isu | Usulan (rujukan ke `PANDUAN_ANOTASI.md`) | Dampak bila berubah | Status |
 |---|---|---|---|---|
 | KP-01 | **OBJEK tidak didefinisikan** di dokumen induk | Bagian 3.5 | Mengubah jumlah dan batas OBJEK; label awal 254 OBJEK pada 1.000 dokumen X (Lampiran A.5 dokumen induk) mungkin dibuat dengan definisi lain | BELUM |
-| KP-02 | PELAKU "tanpa kata kerja" (Bagian 3.8 dokumen induk) bertentangan dengan contoh yang berisi kata kerja (lihat 0.3) | Rentang PELAKU berupa frasa nomina; kata isyarat penyamar di luar rentang; dua rujukan pelaku dalam satu kalimat menjadi dua rentang | Contoh di Bagian 7 dokumen induk harus disesuaikan | BELUM |
+| KP-02 | PELAKU "tanpa kata kerja" (Bagian 3.8 dokumen induk) bertentangan dengan contoh yang berisi kata kerja (lihat 0.3) | Rentang PELAKU berupa frasa nomina; kata isyarat penyamar di luar rentang; dua rujukan pelaku dalam satu kalimat menjadi dua rentang | Contoh di Bagian 7 dokumen induk disesuaikan pada rev8.3 (lihat 0.4) | BELUM (diterapkan, menunggu dosen) |
 | KP-03 | Cakupan PLATFORM | Termasuk *marketplace*, media sosial dan pesan, dompet digital, bank, pinjaman daring, transportasi daring, dan *game*. Institusi yang bukan layanan digital (kepolisian, dinas) tidak pernah PLATFORM | Jumlah PLATFORM dan jumlah tumpukan | BELUM |
 | KP-04 | Nama aplikasi yang diulas (muncul di 47% ulasan Play Store, Lampiran A.5 dokumen induk) | Tetap PLATFORM bila disebut di teks | Dominasi PLATFORM di Play Store; subset varian ejaan | BELUM |
 | KP-05 | Cakupan NOMINAL | Semua ungkapan jumlah uang, apa pun perannya (kerugian, harga, biaya, tawaran) | Jumlah NOMINAL; subset nominal informal | BELUM |
@@ -67,6 +67,9 @@ Lihat tabel "Peta berkas" di bagian atas berkas ini. Satu aturan, satu tempat: a
 | KP-10 | Bidang yang diberikan ke AI | Hanya `nerText` dan `source`. `evidence`, `kw_hits`, `tierDetail`, `primaryCategory`, `categories`, `victimRelation` **tidak** diberikan | Risiko sirkularitas (Lampiran A.3 dokumen induk) | BELUM |
 | KP-11 | Ambang penerimaan kesepakatan | Angka ditetapkan penulis bersama dosen **sebelum** pilot; panduan ini tidak mengusulkan angka | Kriteria lulus pilot | BELUM |
 | KP-12 | Alat anotasi untuk dosen | Dipilih penulis. Syarat: mendukung rentang bertumpuk dan impor label awal. Label Studio, doccano, dan INCEpTION adalah kandidat yang **belum diuji** dalam penyusunan panduan ini; periksa dulu dukungan rentang bertumpuk | Cara dosen bekerja | BELUM |
+| KP-13 | Persona yang hanya nama platform (`menyamar sebagai OVO`) | PLATFORM saja, tanpa PELAKU (Bagian 3.1 dan 5.15), karena rentang identik dua tipe tidak diizinkan pada PRODUKSI | Pola ini cocok pada 91 dokumen (79 Play Store, 12 X) menurut `AUDIT_PANDUAN_DATA.py`; PELAKU akan kurang terhitung pada dokumen peniruan platform. Alternatif: izinkan pola ketiga (PLATFORM identik PELAKU) | BELUM |
+| KP-14 | Awalan *di-/ke-/dr-* menempel pada nama platform (`dishopeepay`) | Rentang PLATFORM dimulai setelah awalan (Bagian 2.4) | 44 dokumen Play Store menurut pola; menyimpang dari aturan batas kata biasa, sehingga tokenisasi *subword* dan penyelarasan rentang ke token perlu diuji | BELUM |
+| KP-15 | Angka tanpa satuan setelah kata transaksi (`dp 400`) | NOMINAL dengan `RAGU_ADA` (Bagian 3.2 butir 6) | 16 dokumen menurut pola (6 Play Store, 10 X); jumlah NOMINAL informal | BELUM |
 
 ### 0.3 Temuan pada dokumen induk
 
@@ -74,12 +77,27 @@ Temuan ini ditulis langsung karena memengaruhi aturan anotasi.
 
 | No | Temuan | Dampak |
 |---|---|---|
-| 1 | Bagian 3.8 dokumen induk menyatakan PELAKU tanpa kata kerja. Namun contoh alur di Bagian 7 dokumen induk menandai *ngaku CS buka lapak* sebagai PELAKU, dan Lampiran A.5 dokumen induk menyebut *oknum yang mengaku CS*. Keduanya memuat kata kerja | Tanpa keputusan, dua anotator akan menarik batas berbeda. Usulan: KP-02 |
-| 2 | Pilot ditulis "300 sampai 500 kalimat" padahal anotasi dilakukan per dokumen | KP-08 |
-| 3 | OBJEK disebut sebagai tipe kelima tetapi tidak didefinisikan di bagian mana pun, termasuk Lampiran A dokumen induk | KP-01. Ini butir paling mendesak, karena OBJEK adalah tipe paling subjektif |
+| 1 | Pada rev8.2, Bagian 3.8 dokumen induk menyatakan PELAKU tanpa kata kerja. Namun contoh alur di Bagian 7 dokumen induk menandai *ngaku CS buka lapak* sebagai PELAKU, dan Lampiran A.5 dokumen induk menyebut *oknum yang mengaku CS*. Keduanya memuat kata kerja | Tanpa keputusan, dua anotator akan menarik batas berbeda. Usulan: KP-02 |
+| 2 | Pada rev8.2, pilot ditulis "300 sampai 500 kalimat" padahal anotasi dilakukan per dokumen | KP-08 |
+| 3 | Pada rev8.2, OBJEK disebut sebagai tipe kelima tetapi tidak didefinisikan di bagian mana pun, termasuk Lampiran A dokumen induk | KP-01. Ini butir paling mendesak, karena OBJEK adalah tipe paling subjektif |
 | 4 | Berkas label awal 1.000 dokumen X (sumber angka 2.586 entitas dan 107 pasangan bertumpuk) tidak ada di repositori. Angka itu tidak dapat diperiksa ulang dari repo | Mohon berkas itu ditambahkan, atau angkanya ditandai belum terverifikasi. Definisi OBJEK dan PELAKU yang dipakai saat itu perlu dicatat |
 | 5 | Dokumen induk di repo memakai "keluhan penipuan", sedangkan instruksi proyek dan nama folder memakai "kandidat korban" | Panduan memakai istilah netral **dokumen kandidat**. Sampai pelabelan V/W/T/O selesai, tidak ada dokumen yang disebut "korban terverifikasi" |
 
+
+### 0.4 Penyelarasan dokumen induk (rev8.3)
+
+Permintaan penulis: panduan, dokumen induk, dan data harus saling cocok. Perubahan berikut dibuat pada `RENCANA_SINGKAT_TESIS.md`. Semuanya masih **menunggu persetujuan dosen**; bila ditolak, panduan dan dokumen induk dikembalikan bersama.
+
+| No | Letak di dokumen induk | Sebelum | Sesudah | Alasan |
+|---|---|---|---|---|
+| 1 | Bagian 3.8, baris uraian panjang | "batas MODUS sekitar 5 kata; PELAKU tanpa kata kerja" | "target MODUS 2 sampai 5 kata dengan batas keras 8; PELAKU berupa frasa nomina, kata isyarat penyamar di luar rentang" | KP-02 dan KP-06 |
+| 2 | Contoh alur, langkah 6 | "*ngaku CS buka lapak* → PELAKU" | "*CS buka lapak* → PELAKU" | *ngaku* adalah kata isyarat di luar rentang (KP-02) |
+| 3 | Lampiran A.5, "Keputusan anotasi" | "300 sampai 500 kalimat" | "300 sampai 500 dokumen" | KP-08, anotasi per dokumen |
+| 4 | Bagian 4.4, Batasan istilah | OBJEK tidak didefinisikan | Baris definisi operasional OBJEK, ditandai usulan | KP-01 |
+| 5 | Lampiran A.5, tabel | Tidak ada | Baris "Audit pola untuk panduan" yang menunjuk `AUDIT_PANDUAN_DATA.py`, berstatus hitungan pola | Kesesuaian data dengan panduan |
+| 6 | Header | rev8.2 | rev8.3 | Pelacakan |
+
+Tidak ada angka hasil anotasi yang ditambahkan ke dokumen induk.
 ---
 
 
@@ -89,7 +107,7 @@ Temuan ini ditulis langsung karena memengaruhi aturan anotasi.
 
 1. Semua butir KP-01 sampai KP-12 berstatus DISETUJUI atau secara sadar diubah, dan panduan dinaikkan versinya.
 2. **Bekukan pembagian** latih, validasi, dan uji (benih acak dicatat, pembagian per kelompok duplikat `dup_group`, stratifikasi sumber). Pilot diambil hanya dari data **bukan uji**. Alasannya, aturan akan disetel dengan data pilot; bila dokumen pilot ikut menjadi data uji, itu kebocoran.
-3. **Samarkan data pribadi** (nomor telepon, rekening, nama asli) dengan format setara, lalu jadikan teks tersamarkan itu satu-satunya teks yang dianotasi dan dilatihkan. Alasannya, Lampiran A.5 dokumen induk mencatat teks X masih memuat nomor HP dan rekening asli, dan data dikirim ke layanan pihak ketiga. Posisi karakter hanya valid terhadap teks yang persis sama.
+3. **Samarkan data pribadi** (nomor telepon, rekening, nama asli) dengan format setara, lalu jadikan teks tersamarkan itu satu-satunya teks yang dianotasi dan dilatihkan. Hitungan pola `EKSPERIMEN/KODE/AUDIT_PANDUAN_DATA.py` menemukan nomor telepon atau deret angka panjang (rekening) yang tampak pada 227 dari 2.501 dokumen X (9,1%) dan 0 dokumen Play Store; kolom `pii` menandai PHONE pada 180 dokumen X (seluruhnya sama dengan telepon yang tampak menurut pola), tetapi hanya menandai dan tidak menyamarkan teks; 45 dokumen memuat deret angka 9 digit atau lebih tanpa tanda PHONE (kemungkinan rekening, belum dipastikan). Karena itu kolom `pii` tidak boleh dijadikan satu-satunya dasar penyamaran. Lampiran A.5 dokumen induk juga mencatat teks X masih memuat nomor HP dan rekening asli, dan data dikirim ke layanan pihak ketiga. Posisi karakter hanya valid terhadap teks yang persis sama.
 4. Periksa kebijakan layanan AI yang dipakai terkait penyimpanan dan penggunaan data untuk pelatihan, dan pilih pengaturan tanpa penyimpanan bila tersedia. Panduan ini tidak memverifikasi kebijakan layanan tertentu.
 5. Tetapkan ambang penerimaan (KP-11) dan catat dengan tanggal **sebelum** pilot dijalankan.
 
@@ -101,6 +119,7 @@ Temuan ini ditulis langsung karena memengaruhi aturan anotasi.
 | Komposisi | Kira-kira setengah Play Store dan setengah X; acak berstrata menurut sumber dan kategori utama; kategori kecil digabung |
 | Benih acak | Dicatat |
 | Asal | Hanya dari data bukan uji |
+| Dokumen di luar topik | Hitungan kata kunci kasar menemukan 969 dari 2.501 dokumen X (38,7%) dan 751 dari 3.531 dokumen Play Store (21,3%) tanpa satu pun isyarat daring. Angka ini batas atas yang berisik dan **bukan** penilaian relevansi. Pilot tidak menyaring dokumen seperti itu supaya estimasi kepadatan entitas tidak bias; ketepatan seleksi tetap diukur terpisah lewat sampel cek V/W/T/O |
 | Sasaran X | Dokumen X memiliki kepadatan entitas lebih tinggi menurut label awal AI (2.586 entitas per 1.000 dokumen), sehingga komposisi setengah demi setengah memberi cukup entitas per tipe |
 
 ### 9.3 Menjalankan AI
@@ -148,6 +167,7 @@ Ketat (*strict*): rentang dan tipe harus sama persis.
 | Tiga tingkat kelonggaran, hanya sebagai diagnosis | (a) *strict*: rentang dan tipe sama; (b) tipe diabaikan: rentang sama; (c) batas longgar: tumpang tindih rentang. Selisih (a) dan (b) menunjukkan masalah definisi tipe; selisih (a) dan (c) menunjukkan masalah batas. Hanya (a) yang menjadi ukuran utama |
 | Tingkat koreksi AI | Persentase entitas AI yang `UBAH_*` atau `HAPUS`; persentase entitas yang `TAMBAH`; per tipe |
 | Tumpang tindih sejati | Proporsi entitas yang berada di dalam entitas lain, dan jumlah pasangan bersilang. Angka ini menjadi dasar kuantitatif dekoder berbasis rentang (Bagian 3.6 dokumen induk) dan menentukan perlunya memperluas istilah "bertumpuk" |
+| Dampak aturan v0.2 | Jumlah dan proporsi: MODUS yang dipotong atau dibatalkan karena memuat PLATFORM, PELAKU, atau OBJEK (penanda `TUMPANG_LAIN` pada PILOT); dokumen persona hanya nama platform (KP-13); rentang dengan awalan menempel (KP-14); NOMINAL tanpa satuan (KP-15). Angka ini menentukan apakah aturan PRODUKSI dikunci atau direvisi |
 | Interval kepercayaan | *Bootstrap* atas dokumen, 1.000 ulangan (seperti Lampiran A.1 dokumen induk) |
 
 ### 11.4 Perkiraan jumlah entitas pada pilot
@@ -197,6 +217,7 @@ Penulis dan dosen mengisi tabel ini dan mencatat tanggalnya **sebelum** pilot. P
 | Versi | Tanggal | Perubahan |
 |---|---|---|
 | v0.1 | 2 November 2026 | Draf awal. Semua usulan KP-01 sampai KP-12 belum diputuskan |
+| v0.2 | 2 November 2026 | Uji terhadap korpus (`AUDIT_PANDUAN_DATA.py`). Koreksi: teman atau keluarga boleh menjadi PELAKU bila teks menyatakan ia menipu (sebelumnya selalu bukan PELAKU; 16 dokumen X berpola ini). Usulan baru: KP-13 persona hanya platform, KP-14 awalan menempel, KP-15 angka tanpa satuan. Aturan nomor telepon dan rekening (2.12). Contoh 14 sampai 17. Penjelasan 5.5 untuk dokumen luar topik. Dokumen induk diselaraskan ke rev8.3 (0.4) |
 
 ### 13.2 Putusan kasus (diisi saat pilot)
 

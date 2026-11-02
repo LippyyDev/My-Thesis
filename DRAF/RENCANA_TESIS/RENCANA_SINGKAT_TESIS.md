@@ -1,7 +1,7 @@
 # Ringkasan Tesis: Ekstraksi Entitas pada Keluhan Penipuan Online Berbahasa Indonesia Menggunakan IndoBERTweet, CharCNN, Leksikon Toleran, dan Efficient GlobalPointer
 
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Versi**: rev8.2 | **Tanggal**: Oktober 2026
+**Versi**: rev8.3 | **Tanggal**: November 2026
 
 ---
 
@@ -175,7 +175,7 @@ Masalah lain dari data **tidak dijawab arsitektur** (atau hanya sebagian) dan di
 | Masalah | Ditangani oleh |
 |---|---|
 | Belum ada dataset (M1) | Kontribusi data (K1) |
-| MODUS dan PELAKU berupa uraian panjang | Panduan anotasi (batas MODUS sekitar 5 kata; PELAKU tanpa kata kerja), lalu diukur di pilot |
+| MODUS dan PELAKU berupa uraian panjang | Panduan anotasi (target MODUS 2 sampai 5 kata dengan batas keras 8; PELAKU berupa frasa nomina, kata isyarat penyamar di luar rentang), lalu diukur di pilot |
 | Kata ambigu *dana* | Konteks encoder; diukur dengan metrik akurasi kata ambigu |
 | Nama baru di luar daftar | Konteks encoder; **risiko bertambah bila leksikon dipakai**, diukur dengan *recall* entitas di luar data latih dan leksikon (H5) |
 | Teks X panjang | *Sliding window* (prapemrosesan) |
@@ -216,6 +216,7 @@ Rincian tujuan (dipakai bila diminta tujuan yang dirinci, tanpa menambah masalah
 | Istilah | Definisi operasional |
 |---|---|
 | Entitas | Lima tipe: PELAKU, NOMINAL, PLATFORM, MODUS, OBJEK. Istilah "entitas bernama" tidak dipakai karena MODUS dan PELAKU deskriptif bukan nama diri |
+| OBJEK (usulan, belum disetujui dosen) | Barang, jasa, produk keuangan, atau aset digital yang spesifik dan menjadi sasaran atau sarana penipuan (*tiket konser*, *iphone 13*, *pulsa*). Istilah uang umum (*uang*, *saldo*) dan kata benda generik (*barang*, *pesanan*) bukan OBJEK. Definisi lengkap: `DRAF/PANDUAN_ANOTASI/PANDUAN_ANOTASI.md` Bagian 3.5 |
 | Kata tidak baku | Kata di luar ragam baku (*gak*, *udh*, *tf*), sesuai Ciri 01 |
 | Variasi penulisan nama | Satu nama entitas ditulis dalam bentuk berbeda: dipisah spasi (*buka lapak*), singkatan (*tokped*), atau salah ketik (*shoppe*), sesuai Ciri 02 |
 | Ungkapan numerik tidak baku | Nominal di luar pola Rp baku (*2jt*, *500rb*, *100k*, *sejuta*), sesuai Ciri 03 |
@@ -387,7 +388,7 @@ Kalimat: "ngaku CS **buka lapak**, suruh tf **2jt**"
 5. IndoBERTweet lapisan 2 sampai 12 membaca ulang representasi yang sudah diperkaya bersama konteks kalimat.
 6. EGP menilai setiap potongan kalimat:
    - *buka lapak* → PLATFORM;
-   - *ngaku CS buka lapak* → PELAKU (PLATFORM bertumpuk di dalamnya);
+   - *CS buka lapak* → PELAKU (PLATFORM bertumpuk di dalamnya; kata isyarat *ngaku* di luar rentang);
    - *2jt* → NOMINAL;
    - *suruh tf 2jt* → MODUS (NOMINAL bertumpuk di dalamnya).
 
@@ -862,6 +863,7 @@ Angka berikut dihitung dari berkas `ULASAN_KORBAN_PENIPUAN.jsonl` di `EKSPERIMEN
 | Batas entitas | Frasa penyamar (*mengaku*, *mengatasnamakan*) di 8,0% dokumen Play Store dan 10,4% dokumen X; MODUS median 4 kata, 24% berisi 6 kata atau lebih, maksimum 13; 195 PELAKU berupa nomor HP atau rekening asli; 214 entitas (8%) ditandai ragu | Panduan anotasi; EGP menilai *span* utuh |
 | Distribusi dokumen | Tanpa MODUS spesifik (GENERAL_FRAUD) 41,0% Play Store dan 79,9% X; nama aplikasi yang diulas ikut disebut di 47% ulasan Play Store; kerugian gagal atau hampir terjadi 15,1% | Panduan anotasi; ketidakseimbangan kelas |
 | Panjang teks | Median 33 kata (Play Store) dan 41 kata (X); pada 1.000 dokumen X, 4,4% melebihi 100 kata (terpanjang 553) | *Sliding window* (prapemrosesan) |
-| Privasi | Teks X masih memuat nomor HP dan rekening asli (40 dan 62 dokumen per 1.000), padahal kolom `pii` kosong; akun `@` sudah disamarkan | Disamarkan dengan format setara sebelum anotasi dan rilis |
+| Privasi | Teks X masih memuat nomor HP dan rekening asli (40 dan 62 dokumen per 1.000), padahal kolom `pii` kosong; akun `@` sudah disamarkan. Catatan penyelarasan rev8.3: pada berkas `rules_version` 1.4, kolom `pii` menandai PHONE di 180 dokumen X, tetapi nomornya tetap tampak di `nerText` dan deret angka panjang (kemungkinan rekening) tanpa tanda PHONE ada di 45 dokumen | Disamarkan dengan format setara sebelum anotasi dan rilis |
+| Audit pola untuk panduan anotasi (hitungan pola, **bukan anotasi**) | Persona yang hanya nama platform: 79 Play Store dan 12 X. Awalan menempel pada nama platform: 44 Play Store. Teman atau keluarga disebut penipu: 16 X. Angka tanpa satuan setelah kata transaksi: 6 Play Store dan 10 X. Nomor telepon atau deret angka panjang tampak: 227 X dari 2.501. Lebih dari 128 kata: 1 Play Store dan 174 X (lebih dari 256 kata: 63 X). Tanpa isyarat daring menurut kata kunci kasar: 751 Play Store dan 969 X (batas atas berisik, bukan penilaian relevansi) | Panduan anotasi v0.2; skrip `EKSPERIMEN/KODE/AUDIT_PANDUAN_DATA.py` |
 
-**Keputusan anotasi:** entitas bertumpuk diizinkan **terbatas** (PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS); PELAKU mencakup bentuk **deskriptif** (*oknum yang mengaku CS*), bukan hanya pengenal; anotasi per dokumen; pilot anotasi ganda 300 sampai 500 kalimat.
+**Keputusan anotasi:** entitas bertumpuk diizinkan **terbatas** (PLATFORM di dalam PELAKU, NOMINAL di dalam MODUS); PELAKU mencakup bentuk **deskriptif** (*oknum yang mengaku CS*), bukan hanya pengenal; anotasi per dokumen; pilot anotasi ganda 300 sampai 500 dokumen. Aturan lengkap, keputusan terbuka, dan prosedur: `DRAF/PANDUAN_ANOTASI/`.

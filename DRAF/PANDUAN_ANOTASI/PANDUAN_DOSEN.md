@@ -1,8 +1,8 @@
 # Panduan Pemeriksaan Label untuk Dosen
 
-**Versi**: v0.1 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
+**Versi**: v0.2 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.2 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
+**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.3 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
 
 **Isi berkas ini**: cara memeriksa label yang dibuat anotator AI. Aturan lengkap ada di `PANDUAN_ANOTASI.md`.
 
@@ -33,9 +33,9 @@ Untuk memeriksa dengan cepat. **Aturan lengkap ada di `PANDUAN_ANOTASI.md`**; bi
 
 | Tipe | Intinya | Bukan | Aturan lengkap |
 |---|---|---|---|
-| PELAKU | Pihak yang menipu, berupa frasa nomina tanpa kata kerja: peran (*penjual*), persona (*CS Shopee*), nama, atau nilai pengenal (nomor, akun) | Kata ganti, *orang*, *pihak*; platform yang hanya dituduh; pegawai yang hanya tidak membantu | Bagian 3.1 |
-| NOMINAL | Semua ungkapan jumlah uang, termasuk bentuk tidak baku: *2jt*, *500rb*, *100k*, *sejuta*, *jutaan* | Nomor telepon atau rekening, tanggal, jumlah barang, bunga, poin | Bagian 3.2 |
-| PLATFORM | Nama aplikasi, situs, atau layanan digital (termasuk bank dan dompet digital), dalam bentuk baku, singkatan, terpisah spasi, atau salah ketik | Kata jenis umum (*aplikasi*, *bank*), nama akun, kata *dana* yang berarti uang | Bagian 3.3 |
+| PELAKU | Pihak yang menipu, berupa frasa nomina tanpa kata kerja: peran (*penjual*), persona (*CS Shopee*), teman atau keluarga bila teks menyatakan ia menipu, nama, atau nilai pengenal (nomor, akun) | Kata ganti, *orang*, *pihak*; platform yang hanya dituduh atau hanya ditiru (*menyamar sebagai OVO*: PLATFORM saja, KP-13); pegawai yang hanya tidak membantu | Bagian 3.1 |
+| NOMINAL | Semua ungkapan jumlah uang, termasuk bentuk tidak baku: *2jt*, *500rb*, *100k*, *sejuta*, *jutaan*; angka tanpa satuan tepat setelah *dp/tf* diberi tanda ragu (KP-15) | Nomor telepon atau rekening, tanggal, jumlah barang, bunga, poin | Bagian 3.2 |
+| PLATFORM | Nama aplikasi, situs, atau layanan digital (termasuk bank dan dompet digital), dalam bentuk baku, singkatan, terpisah spasi, atau salah ketik; awalan *di-/ke-* yang menempel (*dishopeepay*) tidak ikut rentang (KP-14) | Kata jenis umum (*aplikasi*, *bank*), nama akun, kata *dana* yang berarti uang | Bagian 3.3 |
 | MODUS | Cara, dalih, atau perbuatan inti pelaku; boleh memuat kata kerja; target 2 sampai 5 kata, paling banyak 8 | Akibat (*uang hilang*), pernyataan umum (*ditipu*), tindakan penulis, kata isyarat (*ngaku*, *kedok*) | Bagian 3.4 |
 | OBJEK | Barang, jasa, atau aset yang spesifik (*tiket konser*, *iphone 13*). **Definisi ini belum disetujui** | Istilah uang umum, kata benda generik (*barang*, *pesanan*) | Bagian 3.5 |
 

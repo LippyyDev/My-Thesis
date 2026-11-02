@@ -1,8 +1,8 @@
 # Panduan Anotasi NER Keluhan Penipuan Online Berbahasa Indonesia
 
-**Versi**: v0.1 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
+**Versi**: v0.2 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.2 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
+**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.3 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
 
 **Isi berkas ini**: aturan penandaan yang diberikan kepada anotator AI (seluruh isi berkas dipakai sebagai instruksi) dan menjadi rujukan dosen.
 
@@ -84,7 +84,7 @@ Istilah: **rentang** adalah potongan teks kontigu yang ditandai (dalam literatur
 | 2.1 | Posisi dihitung dalam karakter Unicode pada `nerText` persis, mulai dari 0; `mulai` inklusif, `akhir` eksklusif. Isi `teks` harus sama dengan potongan `nerText[mulai:akhir]` | `nerText[23:32]` = `CS Shopee` |
 | 2.2 | Rentang tidak diawali atau diakhiri spasi atau tanda baca. Pengecualian: tanda yang menjadi bagian token, yaitu titik dan koma di dalam angka (`1.500.000`, `1,5`), titik dalam singkatan (`a.n.`), garis bawah dan `@` pada nama akun (`@user123`, `HOKI_88`), dan lambang mata uang (`Rp`, `$`) | `Rp 50.000` utuh; `"Grab"` ditandai `Grab` tanpa tanda kutip |
 | 2.3 | Rentang harus kontigu. Tidak boleh melompati kata | `CS di Shopee` tidak boleh ditandai sebagai satu rentang yang melompati `di` |
-| 2.4 | Rentang berawal dan berakhir di batas kata. Batas kata: spasi, tanda baca, garis miring, dan garis hubung yang memisahkan dua kata. Klitik yang menempel (*-nya*, *-lah*, *-kah*, *-pun*) ikut kata | `penjualnya` ditandai utuh; `CS-Shopee`: `Shopee` boleh menjadi rentang dalam |
+| 2.4 | Rentang berawal dan berakhir di batas kata. Batas kata: spasi, tanda baca, garis miring, dan garis hubung yang memisahkan dua kata. Klitik yang menempel (*-nya*, *-lah*, *-kah*, *-pun*) ikut kata. **Pengecualian awalan**: kata depan *di-*, *ke-*, *dr-* yang menempel pada nama PLATFORM tidak masuk rentang, dan rentang boleh dimulai di tengah token, hanya bila sisanya nama platform (`dishopeepay` → `di[shopeepay]{PLATFORM}`) | `penjualnya` ditandai utuh; `CS-Shopee`: `Shopee` boleh menjadi rentang dalam; `ditokopedia` → `di[tokopedia]{PLATFORM}`, tetapi `dika` bukan platform sehingga tidak dipotong |
 | 2.5 | Kata penunjuk dan sapaan di tepi dikeluarkan: *si*, *sang*, *para*, *seorang*, *ini*, *itu*, *tersebut*, *yang*, serta sapaan *bapak*, *ibu*, *pak*, *bu*, *kak*, *mas*, *mbak* sebelum nama. Kata pengantar nama (*a.n.*, *atas nama*, *nama*, *nomor*, *no.*, *rek*) juga dikeluarkan | `si penjual` → `penjual`; `a.n. Budi Santoso` → `Budi Santoso` |
 | 2.6 | Tandai **setiap** kemunculan yang memenuhi aturan | `Shopee` muncul tiga kali: tiga rentang |
 | 2.7 | Kata ganti dan rujukan ulang tidak ditandai: *dia*, *ia*, *mereka*, *kamu*, *orang itu*, *pihak tersebut*, dan kata ganti *-nya* yang berdiri sendiri | `dia kabur`: tanpa label |
@@ -92,6 +92,7 @@ Istilah: **rentang** adalah potongan teks kontigu yang ditandai (dalam literatur
 | 2.9 | Dokumen tanpa entitas menghasilkan `entitas: []` | `Mengecewakan banget, ditipu lagi` |
 | 2.10 | Teks pseudonim dipakai apa adanya: `@userNNNNN` untuk akun, `penggunaNNNN@contoh.com` untuk surel. Tanda kurung siku di dalam teks (`[THREAD]`, `[SCAMMER]`) adalah bagian teks asli, bukan penanda anotasi | |
 | 2.11 | Emoji, tagar, dan tautan tidak menjadi bagian rentang. Tagar (`#penipuan`) tidak ditandai. Tautan (URL) tidak ditandai pada v0.1; bila sering muncul, tandai `DI_LUAR_ATURAN` agar dicatat di pilot | |
+| 2.12 | Nomor telepon dan rekening ditandai **utuh**, termasuk spasi dan tanda hubung di dalam nomor serta awalan *+62*. Nama bank di depan nomor adalah PLATFORM terpisah dan tidak ikut | `+62 892-6355-4923` satu rentang; `BRI - 103462497414575` → `[BRI]{PLATFORM} - [103462497414575]{PELAKU}` |
 
 ---
 
@@ -112,13 +113,15 @@ Setiap tipe berisi: definisi, tabel keputusan, aturan batas, dan hubungannya den
 | Nama orang yang disebut sebagai pelaku | Tandai nama tanpa sapaan dan tanpa kata pengantar | `a.n. [Budi Santoso]{PELAKU}` |
 | Pengenal: telepon, rekening, akun, surel | Tandai **nilai** pengenal saja | `nomor [081234567890]{PELAKU}`; `akun IG [@user123]{PELAKU}` |
 | Nama toko atau akun penjual yang dituduh | Tandai nama diri; kata *toko* ikut hanya bila bagian frasa peran tanpa nama diri | `nama toko [HOKI_88]{PELAKU}`; `[toko penipu]{PELAKU}` |
+| Persona yang hanya berupa nama platform (`menyamar sebagai OVO`, `ngaku dari Shopee`) | Tandai **PLATFORM saja**. Bukan PELAKU, karena rentang identik dua tipe tidak diizinkan pada tahap PRODUKSI (usulan KP-13) | `menyamar sebagai [OVO]{PLATFORM}` |
 | Platform dituduh menipu (`Shopee penipu`) | **Bukan** PELAKU. Tandai hanya PLATFORM | `[Shopee]{PLATFORM} penipu` |
 | Predikat *penipu* pada aplikasi (`aplikasinya penipu`) | Bukan PELAKU | tanpa label |
 | Pegawai atau layanan pelanggan platform yang hanya tidak membantu | Bukan PELAKU | `CS [Shopee]{PLATFORM} tidak membantu` |
 | Kata terlalu umum: *orang*, *seseorang*, *pihak*, *dia*, *mereka* | Bukan PELAKU. Dengan penjelas ia boleh: `orang tidak dikenal` | `ditipu orang`: tanpa label |
 | *penipu*, *scammer*, *penjual*, *pembeli* yang menunjuk pelaku | Tandai | `[penipunya]{PELAKU}` |
 | *penipuan*, *tipuan*, *scam* sebagai peristiwa | Bukan PELAKU | `kena penipuan`: tanpa label |
-| Korban, penulis, penolong, teman, keluarga | Bukan PELAKU | |
+| Korban, penulis, penolong | Bukan PELAKU | |
+| Teman atau keluarga | Bukan PELAKU, **kecuali** teks menyatakan ia yang menipu | `ditipu [temen]{PELAKU} sendiri` ditandai; `temen saya ditipu` tidak |
 | Institusi bukan layanan digital yang dicatut (dinas, kepolisian) | PELAKU sebagai persona | `mengatasnamakan [DISHUB]{PELAKU}` |
 
 **Aturan batas.**
@@ -149,6 +152,7 @@ Setiap tipe berisi: definisi, tabel keputusan, aturan batas, dan hubungannya den
 3. Satuan ambigu (`5 m`, `10 k`): tandai hanya bila konteks jelas uang, dan beri `RAGU_ADA` bila belum yakin.
 4. NOMINAL yang berada di dalam frasa MODUS ditumpuk (Bagian 4). NOMINAL di dalam OBJEK, PELAKU, atau PLATFORM tidak ditumpuk: pisahkan OBJEK dari NOMINAL (`[voucher]{OBJEK} [50rb]{NOMINAL}`).
 5. Nominal pada peristiwa gagal atau hampir terjadi tetap ditandai (`hampir ketipu [200 dollar]{NOMINAL}`).
+6. **Angka tanpa satuan** ditandai hanya bila langsung mengikuti kata transaksi (*dp*, *tf*, *transfer*, *bayar*, *kirim*, *minta*) dan harus dibaca sebagai uang; beri `RAGU_ADA` karena satuannya tidak tertulis (usulan KP-15). Angka telanjang lain tidak ditandai: `dp 400` → `dp [400]{NOMINAL}` dengan `RAGU_ADA`; `5 m` tanpa konteks uang tidak ditandai.
 
 ### 3.3 PLATFORM
 
@@ -216,16 +220,16 @@ Setiap tipe berisi: definisi, tabel keputusan, aturan batas, dan hubungannya den
 | Opini | `sangat mengecewakan` | |
 
 **Aturan batas.**
-1. Panjang target 2 sampai 5 kata; **batas keras 8 kata** (usulan KP-06; dokumen induk menyebut sekitar 5 kata). Bila uraian lebih panjang, ambil klausa inti yang masih bermakna sendiri.
+1. Panjang target 2 sampai 5 kata; **batas keras 8 kata** (usulan KP-06; dokumen induk rev8.3 mengikuti usulan ini, sebelumnya menyebut sekitar 5 kata). Bila uraian lebih panjang, ambil klausa inti yang masih bermakna sendiri.
 2. Berhenti sebelum kata penghubung klausa: *buat*, *untuk*, *agar*, *supaya*, *biar*, *karena*, *sehingga*, *padahal*, *tapi*, *tetapi*, *lalu*, *terus*, *kemudian* (Lampiran A.2).
 3. Jangan sertakan PELAKU, PLATFORM, atau OBJEK di dalam rentang. Bila frasa wajar memuatnya, potong menjadi bagian yang tidak memuatnya. Contoh: `minta transfer ke rekening BCA 123` → `[minta transfer]{MODUS}`.
-4. Bila hasil pemotongan kurang dari dua kata atau kehilangan makna, jangan beri MODUS, beri penanda `DI_LUAR_ATURAN` pada dokumen (tahap PRODUKSI). Pada tahap PILOT, lihat Bagian 4.3.
+4. Bila hasil pemotongan kurang dari dua kata atau kehilangan makna, jangan beri MODUS, beri penanda `DI_LUAR_ATURAN` pada dokumen (tahap PRODUKSI). Pada tahap PILOT, lihat Bagian 4.3. Dalih yang seluruhnya berisi nama platform (misalnya `mengatasnamakan dana sponsor Bukalapak`) termasuk kasus ini; seberapa sering ia muncul diukur di pilot (`PROTOKOL_ANOTASI.md` Bagian 11).
 5. NOMINAL yang menjadi bagian frasa permintaan ditumpuk di dalam MODUS (Bagian 4).
 6. Dua tindakan berbeda yang dihubungkan *lalu*, *terus*, atau titik adalah dua rentang MODUS. Dua objek yang dikoordinasi pada satu tindakan (`minta OTP dan PIN`) tetap satu rentang bila tidak melewati 8 kata.
 
 ### 3.5 OBJEK
 
-> **Definisi ini usulan penuh (KP-01).** Dokumen induk tidak mendefinisikan OBJEK. Setujui, ubah, atau tolak sebelum anotasi dimulai.
+> **Definisi ini usulan penuh (KP-01).** Dokumen induk rev8.2 tidak mendefinisikan OBJEK; rev8.3 memuat definisi ini sebagai usulan. Setujui, ubah, atau tolak sebelum anotasi dimulai.
 
 **Definisi usulan.** Barang, jasa, produk keuangan, atau aset digital **yang spesifik** yang menjadi sasaran atau sarana penipuan: yang dijual, dipesan, dijanjikan, ditawarkan, dipinjam, atau diambil.
 
@@ -290,7 +294,7 @@ Hasil pilot menentukan apakah dua pola cukup. Bila `TUMPANG_LAIN` sering muncul,
 | 5.2 | Nama aplikasi yang diulas disebut di teks (`Shopee penipu`, `bukalapak tolong`) | Tandai PLATFORM (KP-04) |
 | 5.3 | Peringatan untuk orang lain (`hati2 akun @user123 jual tiket`) | Tandai seperti biasa. Apakah penulis korban tidak relevan |
 | 5.4 | Peristiwa gagal atau hampir terjadi | Tandai seperti biasa, termasuk NOMINAL |
-| 5.5 | Dokumen yang ternyata bukan penipuan (misalnya sindiran politik atau kiasan) | Tandai hanya entitas yang memenuhi definisi. Penyaringan dokumen dilakukan kemudian lewat label V/W/T/O, bukan oleh anotator NER |
+| 5.5 | Dokumen yang ternyata bukan penipuan online (sindiran politik, kiasan, daftar peristiwa pribadi, penipuan tatap muka seperti jual beli tanah atau uang palsu) atau berupa pertanyaan hipotetik (`aku ditipu ga ya?`) | Tandai hanya entitas yang memenuhi definisi, tanpa penanda khusus. Penyaringan dokumen dilakukan kemudian lewat label V/W/T/O, bukan oleh anotator NER |
 | 5.6 | Akun `@userNNNNN` | PELAKU hanya bila akun itu dituduh sebagai pelaku. Akun penulis atau pihak penolong tidak ditandai |
 | 5.7 | Salah ketik pada kata inti (`penipum`, `ditipuu`) | Tandai seperti kata yang dimaksud bila maknanya jelas; beri `RAGU_BATAS` atau `RAGU_TIPE` bila perlu |
 | 5.8 | Huruf kapital semua (`HOKI_88`, `PENIPU`) | Tidak mengubah aturan |
@@ -300,6 +304,7 @@ Hasil pilot menentukan apakah dua pola cukup. Bila `TUMPANG_LAIN` sering muncul,
 | 5.12 | Data pribadi tampak belum disamarkan (nomor telepon atau rekening yang tampak asli) | Tandai seperti biasa dan beri `DATA_PRIBADI_TERLIHAT` pada dokumen; jangan mengutip nomor itu dalam `alasan` |
 | 5.13 | Penomoran dan format kronologi (`1.`, `Kronologi:`) | Diabaikan |
 | 5.14 | Satu frasa dapat dipandang dua tipe | Putuskan dengan definisi. Bila tetap ragu, pilih tipe yang definisinya paling spesifik dan beri `RAGU_TIPE` |
+| 5.15 | Persona yang berupa nama platform saja, dengan atau tanpa kata isyarat (`ngaku dari Shopee`) | Lihat 3.1: PLATFORM saja. Bila ada peran di depan (`CS dari Shopee`), berlaku pola 4.1 |
 
 ---
 
@@ -311,11 +316,11 @@ Kerjakan berurutan untuk setiap dokumen. Urutan dipilih dari yang paling mekanis
 1. Baca seluruh dokumen. Tentukan apakah teks dapat dipahami (`TIDAK_JELAS` bila tidak).
 2. **NOMINAL**: cari semua ungkapan jumlah uang menurut tabel 3.2. Periksa bukan nomor, tanggal, atau jumlah barang.
 3. **PLATFORM**: cari semua nama layanan menurut 3.3. Terapkan uji substitusi untuk kata ambigu. Isi `varian` dan `kanonik`.
-4. **PELAKU**: cari pihak yang dituduh menipu (peran, persona, nama, pengenal). Pastikan rentang berupa frasa nomina tanpa kata kerja. Keluarkan kata isyarat.
+4. **PELAKU**: cari pihak yang dituduh menipu (peran, persona, nama, pengenal). Pastikan rentang berupa frasa nomina tanpa kata kerja. Keluarkan kata isyarat. Persona yang hanya nama platform tidak menjadi PELAKU (3.1). Teman atau keluarga menjadi PELAKU hanya bila teks menyatakan ia menipu.
 5. **MODUS**: cari cara, dalih, atau perbuatan inti pelaku. Tolak akibat dan pernyataan umum. Potong agar tidak memuat PELAKU, PLATFORM, atau OBJEK (tahap PRODUKSI).
 6. **OBJEK**: cari barang, jasa, atau aset yang spesifik. Tolak istilah uang umum dan kata benda generik.
 7. **Tumpukan**: periksa dua pola (Bagian 4). Pastikan tidak ada tumpukan lain di tahap PRODUKSI.
-8. **Batas**: untuk setiap rentang, periksa 2.1 sampai 2.5 (tepi, kata penunjuk, tanda baca).
+8. **Batas**: untuk setiap rentang, periksa 2.1 sampai 2.5 dan 2.12 (tepi, kata penunjuk, tanda baca, awalan menempel, format nomor).
 9. **Penanda**: beri penanda dan `alasan` untuk setiap keraguan.
 10. Keluarkan JSON (Bagian 8). Jangan menambah penjelasan di luar JSON.
 
@@ -341,6 +346,10 @@ Semua contoh di bagian ini **dibuat untuk panduan** (ilustrasi buatan), bukan ku
 | 11 | `Saya ditipu lewat telepon oleh [CS [Kredivo]{PLATFORM}]{PELAKU} atas nama [Budi]{PELAKU}` | Dua rujukan pelaku yang berbeda dilabeli sebagai dua rentang |
 | 12 | `Mengecewakan banget, ditipu lagi` | Tanpa entitas: `entitas: []` |
 | 13 (PILOT) | `[jual [iphone]{OBJEK} murah]{MODUS}` | OBJEK di dalam MODUS: tahap PILOT menandai keduanya dengan `TUMPANG_LAIN`. Tahap PRODUKSI: MODUS dipotong; bila tersisa kurang dari dua kata, hanya OBJEK ditandai dan dokumen diberi `DI_LUAR_ATURAN` |
+| 14 | `Aku ditipu [temen]{PELAKU} sendiri, katanya [pinjam [100k]{NOMINAL}]{MODUS} buat ongkos` | Teman ditandai karena teks menyatakan ia yang menipu. `katanya` isyarat. `buat` menghentikan MODUS |
+| 15 | `Ada yang menyamar sebagai [OVO]{PLATFORM}, akun saya dikuras` | Persona hanya nama platform: PLATFORM saja (varian `BAKU`, kanonik *OVO*), tanpa PELAKU. `dikuras` akibat, bukan MODUS |
+| 16 | `Uang di[shopeepay]{PLATFORM} saya hilang` | Awalan *di-* di luar rentang. `shopeepay`: varian `BAKU`, kanonik *ShopeePay* |
+| 17 | `Dia [minta dp [400]{NOMINAL}]{MODUS} dulu` | Angka tanpa satuan langsung setelah *dp*: NOMINAL dengan `RAGU_ADA`. `dia` kata ganti, tidak ditandai |
 
 ---
 
@@ -418,7 +427,7 @@ Semua keluaran AI melewati pemeriksaan ini **sebelum** dilihat manusia. Kegagala
 | V2 | Posisi valid; `teks` sama dengan potongan | Gagal | Gagal |
 | V3 | `tipe` termasuk lima tipe | Gagal | Gagal |
 | V4 | Tidak diawali atau diakhiri spasi atau tanda baca (kecuali pengecualian 2.2) | Gagal | Gagal |
-| V5 | Tepi berada di batas kata (2.4) | Gagal | Gagal |
+| V5 | Tepi berada di batas kata (2.4), kecuali rentang PLATFORM yang didahului awalan *di-*, *ke-*, atau *dr-* | Gagal | Gagal |
 | V6 | Tidak ada dua entitas dengan rentang identik | Peringatan bila bertanda `SAMA_RENTANG` | Gagal |
 | V7 | Tumpukan hanya dua pola T2 | Peringatan bila bertanda `TUMPANG_LAIN` | Gagal |
 | V8 | Tidak ada rentang bersilang sebagian | Peringatan bila bertanda `TUMPANG_LAIN` | Gagal |

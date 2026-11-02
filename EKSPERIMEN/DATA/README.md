@@ -111,3 +111,7 @@ Tanpa `--pindah`, berkas disalin dan sumber tidak berubah. Dengan `--pindah`, sa
 ## Garam pseudonim
 
 `TERBATAS/PSEUDONYM_SALT.txt` dipakai untuk membuat pseudonim data pribadi. Jangan dikomit, jangan ditempel ke obrolan atau dokumen, dan simpan cadangannya di tempat terpisah dari data. Hilangnya garam membuat pseudonimisasi tidak bisa direproduksi; bocornya garam melemahkan perlindungan pseudonim.
+
+## Audit kesesuaian dengan panduan anotasi
+
+`EKSPERIMEN/KODE/AUDIT_PANDUAN_DATA.py` menghitung frekuensi pola yang relevan bagi `DRAF/PANDUAN_ANOTASI/` (persona hanya nama platform, awalan menempel pada nama platform, angka tanpa satuan, data pribadi yang tampak, panjang dokumen). Hasilnya hitungan pola, bukan anotasi. Catatan privasi: kolom `pii` hanya menandai (PHONE di 180 dokumen X), tidak menyamarkan `nerText`; nomor dan deret angka panjang tetap tampak, sehingga penyamaran wajib dilakukan sebelum teks dikirim ke layanan AI.
