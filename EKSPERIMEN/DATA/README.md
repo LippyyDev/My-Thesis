@@ -66,7 +66,7 @@ Folder `Playstore` dan `X` di Drive pemilik repo ditata ulang dengan struktur da
 | `TERBATAS/` | Satu folder bersama di `DATA/`, tidak pernah dikomit | Satu folder per platform (`PLAYSTORE/TERBATAS`, `X/TERBATAS`) |
 | Empat berkas di atas 100 MB | Tidak ada | Ada, lengkap |
 
-Folder `Pra_Penelitian`, `Uji_Kelayakan_Bagian1_LA`, dan `Uji_Kelayakan_LCGate` di Drive tidak diubah. Folder `data` dan `_arsip` lama yang kosong sisa penataan masih ada di Drive dan boleh dihapus manual. Garam di Drive sama dengan yang dipakai di repo lokal (`PSEUDONYM_SALT.txt`); jangan dibagikan.
+Folder `Pra_Penelitian`, `Uji_Kelayakan_Bagian1_LA`, dan `Uji_Kelayakan_LCGate` di Drive tidak diubah. Folder `data` dan `_arsip` lama yang kosong sisa penataan masih ada di Drive dan boleh dihapus manual. Garam pseudonim asli ada di `TERBATAS/PSEUDONYM_SALT.txt` pada Drive, satu berkas per platform. Isinya belum dibandingkan antarplatform; jangan dibagikan.
 
 ## Cara memakai di komputer lain
 
