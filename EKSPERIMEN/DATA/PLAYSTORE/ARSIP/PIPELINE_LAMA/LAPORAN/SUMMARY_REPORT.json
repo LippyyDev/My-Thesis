@@ -1,0 +1,217 @@
+{
+  "total_ulasan": 501462,
+  "total_penipuan": 17057,
+  "persen_penipuan": 3.4,
+  "per_aplikasi": {
+    "Tokopedia": {
+      "category": "E-Commerce",
+      "total": 25027,
+      "bintang_1": 12908,
+      "bintang_2": 12119,
+      "penipuan": 1603,
+      "persen_penipuan": 6.41
+    },
+    "Shopee": {
+      "category": "E-Commerce",
+      "total": 24797,
+      "bintang_1": 11947,
+      "bintang_2": 12850,
+      "penipuan": 856,
+      "persen_penipuan": 3.45
+    },
+    "Lazada": {
+      "category": "E-Commerce",
+      "total": 23447,
+      "bintang_1": 12594,
+      "bintang_2": 10853,
+      "penipuan": 2590,
+      "persen_penipuan": 11.05
+    },
+    "Blibli": {
+      "category": "E-Commerce",
+      "total": 15066,
+      "bintang_1": 11244,
+      "bintang_2": 3822,
+      "penipuan": 497,
+      "persen_penipuan": 3.3
+    },
+    "Bukalapak": {
+      "category": "E-Commerce",
+      "total": 24870,
+      "bintang_1": 12941,
+      "bintang_2": 11929,
+      "penipuan": 1386,
+      "persen_penipuan": 5.57
+    },
+    "TikTok (TikTok Shop)": {
+      "category": "E-Commerce & Sosmed",
+      "total": 14812,
+      "bintang_1": 9643,
+      "bintang_2": 5169,
+      "penipuan": 23,
+      "persen_penipuan": 0.16
+    },
+    "OLX Indonesia": {
+      "category": "C2C Marketplace",
+      "total": 12,
+      "bintang_1": 12,
+      "bintang_2": 0,
+      "penipuan": 0,
+      "persen_penipuan": 0.0
+    },
+    "Carousell": {
+      "category": "C2C Marketplace",
+      "total": 2404,
+      "bintang_1": 1879,
+      "bintang_2": 525,
+      "penipuan": 916,
+      "persen_penipuan": 38.1
+    },
+    "WhatsApp Messenger": {
+      "category": "Social Media",
+      "total": 22935,
+      "bintang_1": 11507,
+      "bintang_2": 11428,
+      "penipuan": 191,
+      "persen_penipuan": 0.83
+    },
+    "WhatsApp Business": {
+      "category": "Social Media",
+      "total": 20765,
+      "bintang_1": 11407,
+      "bintang_2": 9358,
+      "penipuan": 125,
+      "persen_penipuan": 0.6
+    },
+    "Instagram": {
+      "category": "Social Media",
+      "total": 23487,
+      "bintang_1": 11958,
+      "bintang_2": 11529,
+      "penipuan": 116,
+      "persen_penipuan": 0.49
+    },
+    "Facebook": {
+      "category": "Social Media",
+      "total": 20454,
+      "bintang_1": 11380,
+      "bintang_2": 9074,
+      "penipuan": 282,
+      "persen_penipuan": 1.38
+    },
+    "Facebook Lite": {
+      "category": "Social Media",
+      "total": 17565,
+      "bintang_1": 9695,
+      "bintang_2": 7870,
+      "penipuan": 159,
+      "persen_penipuan": 0.91
+    },
+    "Telegram": {
+      "category": "Social Media",
+      "total": 22305,
+      "bintang_1": 10625,
+      "bintang_2": 11680,
+      "penipuan": 686,
+      "persen_penipuan": 3.08
+    },
+    "X (Twitter)": {
+      "category": "Social Media",
+      "total": 20494,
+      "bintang_1": 10507,
+      "bintang_2": 9987,
+      "penipuan": 55,
+      "persen_penipuan": 0.27
+    },
+    "DANA": {
+      "category": "E-Wallet",
+      "total": 24222,
+      "bintang_1": 12026,
+      "bintang_2": 12196,
+      "penipuan": 1210,
+      "persen_penipuan": 5.0
+    },
+    "OVO": {
+      "category": "E-Wallet",
+      "total": 25565,
+      "bintang_1": 12927,
+      "bintang_2": 12638,
+      "penipuan": 608,
+      "persen_penipuan": 2.38
+    },
+    "GoPay": {
+      "category": "E-Wallet",
+      "total": 20655,
+      "bintang_1": 11938,
+      "bintang_2": 8717,
+      "penipuan": 759,
+      "persen_penipuan": 3.67
+    },
+    "LinkAja": {
+      "category": "E-Wallet",
+      "total": 26332,
+      "bintang_1": 13310,
+      "bintang_2": 13022,
+      "penipuan": 781,
+      "persen_penipuan": 2.97
+    },
+    "ShopeePay": {
+      "category": "E-Wallet",
+      "total": 13151,
+      "bintang_1": 11101,
+      "bintang_2": 2050,
+      "penipuan": 644,
+      "persen_penipuan": 4.9
+    },
+    "Kredivo": {
+      "category": "Fintech / Pinjol",
+      "total": 24440,
+      "bintang_1": 11752,
+      "bintang_2": 12688,
+      "penipuan": 501,
+      "persen_penipuan": 2.05
+    },
+    "Akulaku": {
+      "category": "Fintech / Pinjol",
+      "total": 24565,
+      "bintang_1": 11879,
+      "bintang_2": 12686,
+      "penipuan": 1099,
+      "persen_penipuan": 4.47
+    },
+    "AdaKami": {
+      "category": "Fintech / Pinjol",
+      "total": 22624,
+      "bintang_1": 10848,
+      "bintang_2": 11776,
+      "penipuan": 832,
+      "persen_penipuan": 3.68
+    },
+    "Easycash": {
+      "category": "Fintech / Pinjol",
+      "total": 22330,
+      "bintang_1": 11066,
+      "bintang_2": 11264,
+      "penipuan": 850,
+      "persen_penipuan": 3.81
+    },
+    "Indodana": {
+      "category": "Fintech / Pinjol",
+      "total": 19138,
+      "bintang_1": 10096,
+      "bintang_2": 9042,
+      "penipuan": 288,
+      "persen_penipuan": 1.5
+    }
+  },
+  "distribusi_kategori": {
+    "GENERAL_FRAUD": 11555,
+    "E-COMMERCE_SELLER_FRAUD": 1525,
+    "PHISHING_ACCOUNT_TAKEOVER": 2812,
+    "FINTECH_LOAN_FRAUD": 190,
+    "IMPERSONATION_EXTORTION": 733,
+    "SOCIAL_ENGINEERING_APK": 35,
+    "EWALLET_PAYMENT_FRAUD": 196,
+    "TASK_JOB_SCAM": 11
+  }
+}
