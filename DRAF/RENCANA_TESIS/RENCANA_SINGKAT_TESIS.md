@@ -851,7 +851,7 @@ Narasi laporan resmi yang kaya pengenal (misalnya *"rekening BCA 1234567890 ... 
 
 ### A.5 Data tambahan
 
-Angka berikut dihitung dari berkas `ulasan_korban_penipuan.jsonl` (Play Store 3.531 dan X 2.501 dokumen) dan pra-anotasi 1.000 dokumen X. Semuanya berlaku untuk **kandidat** keluhan korban, berasal dari pemindaian pola (perkiraan kasar, bukan anotasi), dan pra-anotasi hanya berupa label perak buatan AI.
+Angka berikut dihitung dari berkas `ULASAN_KORBAN_PENIPUAN.jsonl` di `EKSPERIMEN/DATA/{PLAYSTORE,X}/KANDIDAT_KORBAN/` (nama asli sebelum penataan: `ulasan_korban_penipuan.jsonl`; Play Store 3.531 dan X 2.501 dokumen) dan pra-anotasi 1.000 dokumen X. Semuanya berlaku untuk **kandidat** keluhan korban, berasal dari pemindaian pola (perkiraan kasar, bukan anotasi), dan pra-anotasi hanya berupa label perak buatan AI.
 
 | Topik | Temuan | Ditangani oleh |
 |---|---|---|

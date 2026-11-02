@@ -10,7 +10,7 @@ Folder ini menampung data hasil *scraping* untuk tesis (Play Store dan X). Atas 
 | Ketentuan penyedia | Ketentuan penyebaran ulang teks Play Store dan X **belum diperiksa**; periksa sebelum menyebarluaskan |
 | Riwayat Git | Berkas yang sudah dikomit tetap tersimpan di riwayat walaupun dihapus kemudian. Menghapus data dari repo publik memerlukan penulisan ulang riwayat |
 
-Pertimbangkan menjadikan repo privat (Settings, Danger Zone) selama masa penelitian. Rilis dataset untuk publik (K1) sebaiknya dirancang terpisah setelah anonimisasi.
+Atas keputusan pemilik repo, repo **tetap publik**. Risiko di atas diterima dan tidak berubah dengan keputusan ini. Rilis dataset untuk publik (K1) tetap dirancang terpisah setelah anonimisasi.
 
 **Berkas yang tidak ada di GitHub (lebih dari 100 MB):** `PLAYSTORE/BERSIH/ULASAN_BERSIH.csv` dan `.jsonl`, serta `PLAYSTORE/ARSIP/PIPELINE_LAMA/GABUNGAN_BERLABEL/RAW_ALL_REVIEWS.csv` dan `.json`. Simpan di cadangan pribadi dan periksa dengan `--verifikasi`.
 
@@ -55,11 +55,24 @@ Angka di atas cocok dengan Lampiran A.1 (kecuali yang tidak disebut di sana).
 1. **`ARSIP/PIPELINE_LAMA` (Play Store)** berisi `data/filtered/`, `data/reports/`, dan `data/raw/raw_all_reviews.*` dari ZIP. Penempatannya di arsip berdasarkan bukti: berkas bertanggal 13 sampai 14 September (aturan v1.4 bertanggal 1 Oktober); `RAW_ALL_REVIEWS` berisi 501.462 baris berkolom klasifikasi penipuan (`isFraudComplaint`, `confidenceScore`), padahal *checkpoint* asli berjumlah 659.845; `SUMMARY_REPORT.json` melaporkan 501.462 ulasan. Jadi berkas ini **bukan** data mentah dan bukan keluaran v1.4. Jangan dipakai tanpa konfirmasi dari Anda.
 2. **`HASIL_CEK_KETEPATAN.csv`** disebut di `berkas.hasil_cek` pada `CATATAN_PROSES.json` tetapi tidak ada di ZIP. Wajar bila pelabelan belum dilakukan; berkas itu nantinya ditaruh di `PELABELAN/`.
 3. **`checkpoints/com.twitter.android_*`** di Play Store adalah ulasan *aplikasi* Twitter di Play Store, jadi tetap masuk `PLAYSTORE`, bukan `X`.
-4. **Nama berkas berubah.** Dokumen dan kode yang masih menyebut nama lama (`ulasan_korban_penipuan.jsonl`, `catatan_proses.json`, dan seterusnya) perlu diperbarui. Kolom `nama_asal` di `MANIFES_DATA.csv` memetakan nama lama ke nama baru. Isi `CATATAN_PROSES.json` sengaja tidak diubah (kunci `berkas` masih memakai nama lama).
+4. **Nama berkas berubah, di repo dan di Google Drive.** Dokumen, *notebook* Colab, dan kode yang masih menyebut jalur lama (`checkpoints/`, `data/clean/ulasan_korban_penipuan.jsonl`, `data/_restricted/`, dan seterusnya) perlu diperbarui. Kolom `nama_asal` di `MANIFES_DATA.csv` memetakan nama lama ke nama baru. Isi `CATATAN_PROSES.json` sengaja tidak diubah (kunci `berkas` masih memakai nama lama).
+
+## Cadangan di Google Drive
+
+Folder `Playstore` dan `X` di Drive pemilik repo ditata ulang dengan struktur dan penamaan yang sama dengan repo ini (`PLAYSTORE/` dan `X/`, masing-masing berisi `MENTAH/CHECKPOINT`, `BERSIH`, `KANDIDAT_KORBAN`, `PELABELAN`, `ARSIP`, `TERBATAS`). Dua perbedaan:
+
+| Hal | Repo | Drive |
+|---|---|---|
+| `TERBATAS/` | Satu folder bersama di `DATA/`, tidak pernah dikomit | Satu folder per platform (`PLAYSTORE/TERBATAS`, `X/TERBATAS`) |
+| Empat berkas di atas 100 MB | Tidak ada | Ada, lengkap |
+
+Folder `Pra_Penelitian`, `Uji_Kelayakan_Bagian1_LA`, dan `Uji_Kelayakan_LCGate` di Drive tidak diubah. Folder `data` dan `_arsip` lama yang kosong sisa penataan masih ada di Drive dan boleh dihapus manual. Garam di Drive sama dengan yang dipakai di repo lokal (`PSEUDONYM_SALT.txt`); jangan dibagikan.
 
 ## Cara memakai di komputer lain
 
-1. Unduh ZIP dari cadangan, ekstrak sehingga ada folder `Playstore/` dan `X/`.
+Folder Drive yang sudah tertata (bagian di atas) bisa langsung disalin ke `EKSPERIMEN/DATA/` tanpa skrip. Skrip di bawah hanya untuk data yang masih berformat ZIP asli.
+
+1. Unduh ZIP asli, ekstrak sehingga ada folder `Playstore/` dan `X/` (berisi `data/` dan `checkpoints/`).
 2. Jalankan dari `EKSPERIMEN/KODE`:
 
 ```
