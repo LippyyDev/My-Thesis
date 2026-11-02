@@ -1,13 +1,9 @@
-# Daftar putih: semua diabaikan kecuali dokumentasi dan metadata kecil.
-# Alasan: ukuran (batas GitHub 100 MB per berkas), data pribadi pada teks, dan
-# ketentuan penyedia data. Lihat README.md di folder ini.
-*
-!.gitignore
-!README.md
-!MANIFES_DATA.csv
-!*/
-!*/BERSIH/CATATAN_PROSES.json
-!*/BERSIH/RINGKASAN_TAHAPAN.csv
-
-# Wajib paling akhir: garam pseudonim tidak boleh dikomit dalam kondisi apa pun.
+# Garam pseudonim tidak boleh dikomit dalam kondisi apa pun.
 TERBATAS/
+
+# GitHub menolak berkas di atas 100 MB. Empat berkas ini disimpan lokal saja.
+# Lihat kolom status_git di MANIFES_DATA.csv.
+PLAYSTORE/BERSIH/ULASAN_BERSIH.csv
+PLAYSTORE/BERSIH/ULASAN_BERSIH.jsonl
+PLAYSTORE/ARSIP/PIPELINE_LAMA/GABUNGAN_BERLABEL/RAW_ALL_REVIEWS.csv
+PLAYSTORE/ARSIP/PIPELINE_LAMA/GABUNGAN_BERLABEL/RAW_ALL_REVIEWS.json

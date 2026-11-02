@@ -1,17 +1,18 @@
 # EKSPERIMEN/DATA
 
-Folder ini menampung data hasil *scraping* untuk tesis (Play Store dan X). **Isi data tidak dikomit ke GitHub.** Yang dikomit hanya berkas ini, `MANIFES_DATA.csv`, dan empat metadata kecil (`CATATAN_PROSES.json` dan `RINGKASAN_TAHAPAN.csv` tiap platform). Aturannya ada di `.gitignore` (daftar putih).
+Folder ini menampung data hasil *scraping* untuk tesis (Play Store dan X). Atas keputusan pemilik repo, data **dikomit ke GitHub**, kecuali `TERBATAS/` (garam pseudonim) dan empat berkas di atas 100 MB (batas GitHub). Status tiap berkas ada di kolom `status_git` pada `MANIFES_DATA.csv`; aturannya ada di `.gitignore`.
 
-## Mengapa data tidak dikomit
+## Peringatan (repo publik)
 
-| Alasan | Dasar |
+| Hal | Dasar |
 |---|---|
-| Ukuran | Berkas terbesar sekitar 439 MB; GitHub menolak berkas di atas 100 MB. Total sekitar 1,6 GB |
 | Data pribadi | Teks X masih memuat nomor HP dan rekening asli (Lampiran A.5 pada `RENCANA_SINGKAT_TESIS.md`). *Checkpoint* Play Store memuat `userName` dan `userImage`; berkas X mentah memuat data akun penulis |
-| Ketentuan penyedia | Ketentuan penyebaran ulang teks Play Store dan X **belum diperiksa**; periksa sebelum merilis dataset (K1) |
-| Repo publik | Apa pun yang dikomit tetap tersimpan di riwayat Git walaupun dihapus kemudian |
+| Ketentuan penyedia | Ketentuan penyebaran ulang teks Play Store dan X **belum diperiksa**; periksa sebelum menyebarluaskan |
+| Riwayat Git | Berkas yang sudah dikomit tetap tersimpan di riwayat walaupun dihapus kemudian. Menghapus data dari repo publik memerlukan penulisan ulang riwayat |
 
-Pencadangan data harus dilakukan di luar GitHub (misalnya Google Drive pribadi). Rilis dataset untuk publik (K1) baru dirancang setelah anonimisasi dan pemeriksaan ketentuan, dan dikerjakan terpisah.
+Pertimbangkan menjadikan repo privat (Settings, Danger Zone) selama masa penelitian. Rilis dataset untuk publik (K1) sebaiknya dirancang terpisah setelah anonimisasi.
+
+**Berkas yang tidak ada di GitHub (lebih dari 100 MB):** `PLAYSTORE/BERSIH/ULASAN_BERSIH.csv` dan `.jsonl`, serta `PLAYSTORE/ARSIP/PIPELINE_LAMA/GABUNGAN_BERLABEL/RAW_ALL_REVIEWS.csv` dan `.json`. Simpan di cadangan pribadi dan periksa dengan `--verifikasi`.
 
 ## Struktur
 
@@ -25,8 +26,8 @@ EKSPERIMEN/DATA/
     MENTAH/CHECKPOINT/   data asli hasil scraping, belum diproses
     BERSIH/              keluaran pembersihan aturan v1.4
       ULASAN_BERSIH.csv / .jsonl
-      CATATAN_PROSES.json    (dikomit)
-      RINGKASAN_TAHAPAN.csv  (dikomit)
+      CATATAN_PROSES.json
+      RINGKASAN_TAHAPAN.csv
     KANDIDAT_KORBAN/     lolos aturan narasi korban S-06 (Tingkat A)
     PELABELAN/           sampel untuk pelabelan manusia (V/W/T/O)
     ARSIP/               data pengembangan dan keluaran lama

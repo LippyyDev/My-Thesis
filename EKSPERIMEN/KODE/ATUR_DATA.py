@@ -41,11 +41,9 @@ from pathlib import Path
 
 csv.field_size_limit(sys.maxsize)
 
-# Berkas kecil yang boleh dikomit. Harus sejalan dengan DATA/.gitignore.
-DIKOMIT = {
-    "BERSIH/CATATAN_PROSES.json",
-    "BERSIH/RINGKASAN_TAHAPAN.csv",
-}
+# GitHub menolak berkas di atas 100 MB. Berkas yang lebih besar dari batas ini
+# berstatus LOKAL (diabaikan .gitignore); sisanya DIKOMIT. TERBATAS/ tidak pernah dikomit.
+BATAS_GITHUB = 95 * 1024 * 1024
 NAMA_MANIFES = "MANIFES_DATA.csv"
 FOLDER_TERBATAS = "TERBATAS"
 BERKAS_DOKUMENTASI = {".gitignore", "README.md", NAMA_MANIFES}
@@ -177,8 +175,7 @@ def tulis_manifes(tujuan: Path, asal: dict[str, str]) -> None:
         rel = f.relative_to(tujuan).as_posix()
         if rel.split("/")[0] == FOLDER_TERBATAS or rel in BERKAS_DOKUMENTASI:
             continue
-        platform_rel = rel.split("/", 1)[1] if "/" in rel else rel
-        status = "DIKOMIT" if platform_rel in DIKOMIT else "LOKAL"
+        status = "LOKAL" if f.stat().st_size > BATAS_GITHUB else "DIKOMIT"
         print(f"[MANIFES] {rel}")
         baris.append({
             "jalur": rel,
