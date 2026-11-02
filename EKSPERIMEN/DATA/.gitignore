@@ -1,2 +1,13 @@
+# Daftar putih: semua diabaikan kecuali dokumentasi dan metadata kecil.
+# Alasan: ukuran (batas GitHub 100 MB per berkas), data pribadi pada teks, dan
+# ketentuan penyedia data. Lihat README.md di folder ini.
 *
 !.gitignore
+!README.md
+!MANIFES_DATA.csv
+!*/
+!*/BERSIH/CATATAN_PROSES.json
+!*/BERSIH/RINGKASAN_TAHAPAN.csv
+
+# Wajib paling akhir: garam pseudonim tidak boleh dikomit dalam kondisi apa pun.
+TERBATAS/

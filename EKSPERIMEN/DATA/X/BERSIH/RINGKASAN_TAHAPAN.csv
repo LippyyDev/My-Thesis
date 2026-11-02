@@ -1,0 +1,11 @@
+﻿Tahap,Jumlah,% dari awal
+Dimuat dari keluaran Apify (unik per id tweet),4391,100.0
+F-05X Buang retweet,4391,100.0
+F-05X Buang akun organisasi terverifikasi (Business/Government),4210,95.88
+F-05X Buang akun media berita (AKUN_MEDIA),4144,94.37
+F-01  Teks tidak kosong setelah dibersihkan,4120,93.83
+F-02  Minimal 5 kata,4045,92.12
+F-03  Rasio huruf >= 0.5,4045,92.12
+F-04  Buang yang jelas berbahasa Inggris,4044,92.1
+F-04b Buang yang jelas berbahasa Melayu,4012,91.37
+D-01  Setelah hapus duplikat persis,3997,91.03

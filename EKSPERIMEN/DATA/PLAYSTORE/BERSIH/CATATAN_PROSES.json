@@ -1,0 +1,155 @@
+{
+  "rules_version": "1.4",
+  "platform": "playstore",
+  "created": "2026-10-01T13:51:01",
+  "params": {
+    "MIN_WORDS": 5,
+    "MIN_ALPHA_RATIO": 0.5,
+    "DROP_ENGLISH": true,
+    "SCORES_KEEP": [
+      1,
+      2
+    ],
+    "NEARDUP_THRESHOLD": 0.9,
+    "AUDIT_PRESISI_N": 300,
+    "CONTROL_FRAC": 0.02,
+    "CONTROL_MAX": 3000,
+    "NEG_KERAS_MAX": 1000,
+    "S06_SCOPE": "all",
+    "RANDOM_SEED": 42,
+    "PLATFORM_AS_PERPETRATOR": false,
+    "HACK_RULE": "ketat"
+  },
+  "keywords_version": "kw-1.0",
+  "keywords": [
+    "penipu",
+    "penipuan",
+    "menipu",
+    "ditipu",
+    "tertipu",
+    "ketipu",
+    "kena tipu",
+    "nipu",
+    "tipu tipu",
+    "scam",
+    "scammer",
+    "dibobol",
+    "dihack",
+    "dibajak",
+    "diretas",
+    "kena hack",
+    "mengatasnamakan",
+    "mengaku",
+    "phishing",
+    "bodong",
+    "fiktif",
+    "korban"
+  ],
+  "s06": {
+    "rule": "narasi-korban-tingkat-A-v1.4",
+    "tier_counts": {
+      "N": 496697,
+      "B": 14026,
+      "A": 3531
+    },
+    "tierDetail_B": {
+      "KATA_PENIPUAN_UMUM": 4654,
+      "SENGKETA_LAYANAN": 3700,
+      "PERISTIWA_TANPA_NARASI": 1725,
+      "PERETASAN_TANPA_KERUGIAN_ATAU_MODUS": 1450,
+      "PERINGATAN": 858,
+      "TUDUHAN_PLATFORM": 821,
+      "KORBAN_TANPA_BUKTI_KEJADIAN": 358,
+      "PENAGIHAN_PINJAMAN": 187,
+      "PERTANYAAN": 128,
+      "TUDUHAN_UMUM": 86,
+      "TEROR_TANPA_TAGIHAN": 53,
+      "PENAGIHAN_SALAH_ALAMAT": 6
+    },
+    "tierDetail_korban": {
+      "PERISTIWA_DENGAN_AKSI": 1620,
+      "KORBAN_EKSPLISIT": 1276,
+      "KORBAN_TERSIRAT": 635
+    },
+    "primaryCategory_korban": {
+      "GENERAL_FRAUD": 1448,
+      "PHISHING_ACCOUNT_TAKEOVER": 950,
+      "FINTECH_LOAN_FRAUD": 460,
+      "E-COMMERCE_SELLER_FRAUD": 331,
+      "IMPERSONATION_EXTORTION": 288,
+      "NON_FRAUD": 21,
+      "SOCIAL_ENGINEERING_APK": 19,
+      "EWALLET_PAYMENT_FRAUD": 11,
+      "TASK_JOB_SCAM": 3
+    },
+    "audit_presisi": "BELUM",
+    "audit_recall": "BELUM"
+  },
+  "s10": {
+    "dev_dirs": [
+      "_arsip/data_pengembangan_v1.2",
+      "_arsip/data_pengembangan_v1.3"
+    ],
+    "dev_doc_ids": 6600,
+    "audit_overlap_dev": 0,
+    "control_overlap_dev": 0
+  },
+  "counts": {
+    "clean": 514254,
+    "korban": 3531,
+    "korban_unik_dup_group": 3530,
+    "non_korban": 510723,
+    "audit_presisi": 300,
+    "control": 3000,
+    "negatif_keras": 1000
+  },
+  "funnel": [
+    {
+      "Tahap": "Dimuat dari checkpoint",
+      "Jumlah": 659845
+    },
+    {
+      "Tahap": "F-05  Skor sesuai filter sumber (bintang 1 dan 2)",
+      "Jumlah": 659845
+    },
+    {
+      "Tahap": "F-01  Teks tidak kosong setelah dibersihkan",
+      "Jumlah": 658072
+    },
+    {
+      "Tahap": "F-02  Minimal 5 kata",
+      "Jumlah": 518531
+    },
+    {
+      "Tahap": "F-03  Rasio huruf >= 0.5",
+      "Jumlah": 518373
+    },
+    {
+      "Tahap": "F-04  Buang yang jelas berbahasa Inggris",
+      "Jumlah": 515974
+    },
+    {
+      "Tahap": "D-01  Setelah hapus duplikat persis",
+      "Jumlah": 514254
+    }
+  ],
+  "berkas": {
+    "bersih_csv": "ulasan_bersih.csv",
+    "bersih_jsonl": "ulasan_bersih.jsonl",
+    "korban_csv": "ulasan_korban_penipuan.csv",
+    "korban_jsonl": "ulasan_korban_penipuan.jsonl",
+    "cek_ketepatan": "sampel_cek_ketepatan.csv",
+    "cek_terlewat": "sampel_cek_korban_terlewat.csv",
+    "bukan_korban": "contoh_bukan_korban.csv",
+    "tahapan": "ringkasan_tahapan.csv",
+    "catatan": "catatan_proses.json",
+    "hasil_cek": "hasil_cek_ketepatan.csv"
+  },
+  "keluaran_lama": {
+    "dihapus": 0,
+    "dipindah": [
+      "sampel_cek_ketepatan.csv -> _arsip/data_pengembangan_v1.3/sampel_cek_ketepatan_v1.3.csv",
+      "sampel_cek_korban_terlewat.csv -> _arsip/data_pengembangan_v1.3/sampel_cek_korban_terlewat_v1.3.csv"
+    ]
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "rules_version": "1.4",
+  "platform": "x",
+  "created": "2026-10-01T23:08:11",
+  "adaptor_x_version": "x-1.0",
+  "params": {
+    "MIN_WORDS": 5,
+    "MIN_ALPHA_RATIO": 0.5,
+    "DROP_ENGLISH": true,
+    "DROP_MALAY": true,
+    "DROP_RETWEET": true,
+    "DROP_VERIFIED_ORG": [
+      "Business",
+      "Government"
+    ],
+    "AKUN_MEDIA": [
+      "501awani",
+      "antaranews",
+      "beritasatu",
+      "bharianmy",
+      "cnnindonesia",
+      "detikcom",
+      "detikfood",
+      "detiksport",
+      "detiktravel",
+      "idntimes",
+      "inilahdotcom",
+      "insertlivettv",
+      "kompascom",
+      "kontannews",
+      "kumparan",
+      "liputan6dotcom",
+      "metro_tv",
+      "okezonenews",
+      "radioelshinta",
+      "sindonews",
+      "suaradotcom",
+      "tawadotcom",
+      "tempodotco",
+      "tribunnews",
+      "vivacoid"
+    ],
+    "NEARDUP_THRESHOLD": 0.9,
+    "AUDIT_PRESISI_N": 300,
+    "CONTROL_N": 1000,
+    "NEG_KERAS_MAX": 1000,
+    "S06_SCOPE": "all",
+    "RANDOM_SEED": 42,
+    "PLATFORM_AS_PERPETRATOR": false,
+    "HACK_RULE": "ketat"
+  },
+  "keywords_version": "kw-1.0",
+  "keywords": [
+    "penipu",
+    "penipuan",
+    "menipu",
+    "ditipu",
+    "tertipu",
+    "ketipu",
+    "kena tipu",
+    "nipu",
+    "tipu tipu",
+    "scam",
+    "scammer",
+    "dibobol",
+    "dihack",
+    "dibajak",
+    "diretas",
+    "kena hack",
+    "mengatasnamakan",
+    "mengaku",
+    "phishing",
+    "bodong",
+    "fiktif",
+    "korban"
+  ],
+  "s06": {
+    "rule": "narasi-korban-tingkat-A-v1.4",
+    "tier_counts": {
+      "A": 2501,
+      "B": 1396,
+      "N": 100
+    },
+    "tierDetail_B": {
+      "KATA_PENIPUAN_UMUM": 478,
+      "PERINGATAN": 301,
+      "KORBAN_TANPA_BUKTI_KEJADIAN": 273,
+      "PERTANYAAN": 203,
+      "PERETASAN_TANPA_KERUGIAN_ATAU_MODUS": 45,
+      "TUDUHAN_PLATFORM": 42,
+      "SENGKETA_LAYANAN": 35,
+      "PERISTIWA_TANPA_NARASI": 17,
+      "TUDUHAN_UMUM": 1,
+      "PENAGIHAN_PINJAMAN": 1
+    },
+    "tierDetail_korban": {
+      "KORBAN_EKSPLISIT": 1421,
+      "KORBAN_TERSIRAT": 891,
+      "PERISTIWA_DENGAN_AKSI": 189
+    },
+    "primaryCategory_korban": {
+      "GENERAL_FRAUD": 1999,
+      "IMPERSONATION_EXTORTION": 165,
+      "PHISHING_ACCOUNT_TAKEOVER": 148,
+      "FINTECH_LOAN_FRAUD": 83,
+      "EWALLET_PAYMENT_FRAUD": 45,
+      "TASK_JOB_SCAM": 34,
+      "E-COMMERCE_SELLER_FRAUD": 25,
+      "NON_FRAUD": 1,
+      "SOCIAL_ENGINEERING_APK": 1
+    },
+    "audit_presisi": "BELUM",
+    "audit_recall": "BELUM"
+  },
+  "s10": {
+    "dev_dirs": [
+      "_arsip/data_pengembangan_kueri"
+    ],
+    "dev_doc_ids": 797,
+    "audit_overlap_dev": 0,
+    "control_overlap_dev": 0
+  },
+  "lapis_kueri": {
+    "bersih": {
+      "Q1": 2057,
+      "Q2": 839,
+      "Q4": 716,
+      "Q5": 124,
+      "Q6": 117,
+      "Q8": 112,
+      "Q3": 20,
+      "Q7": 12
+    },
+    "korban": {
+      "Q1": 1511,
+      "Q2": 541,
+      "Q4": 220,
+      "Q6": 87,
+      "Q8": 71,
+      "Q5": 48,
+      "Q3": 16,
+      "Q7": 7
+    },
+    "definisi": {
+      "Q7": "Pinjol atas nama penulis",
+      "Q8": "Penyamar (CS, kurir, polisi, bank)",
+      "Q6": "Penipuan kerja",
+      "Q5": "Peretasan dengan kerugian/modus",
+      "Q3": "Modus spesifik (CS palsu, APK, OTP)",
+      "Q2": "Percobaan gagal",
+      "Q4": "Spill pelaku (rekening, nomor)",
+      "Q1": "Inti: kata kerja korban + kerugian"
+    }
+  },
+  "counts": {
+    "clean": 3997,
+    "cek_nama_korban": 147,
+    "korban": 2501,
+    "korban_unik_dup_group": 2493,
+    "non_korban": 1496,
+    "audit_presisi": 300,
+    "control": 1000,
+    "negatif_keras": 1000
+  },
+  "funnel": [
+    {
+      "Tahap": "Dimuat dari keluaran Apify (unik per id tweet)",
+      "Jumlah": 4391
+    },
+    {
+      "Tahap": "F-05X Buang retweet",
+      "Jumlah": 4391
+    },
+    {
+      "Tahap": "F-05X Buang akun organisasi terverifikasi (Business/Government)",
+      "Jumlah": 4210
+    },
+    {
+      "Tahap": "F-05X Buang akun media berita (AKUN_MEDIA)",
+      "Jumlah": 4144
+    },
+    {
+      "Tahap": "F-01  Teks tidak kosong setelah dibersihkan",
+      "Jumlah": 4120
+    },
+    {
+      "Tahap": "F-02  Minimal 5 kata",
+      "Jumlah": 4045
+    },
+    {
+      "Tahap": "F-03  Rasio huruf >= 0.5",
+      "Jumlah": 4045
+    },
+    {
+      "Tahap": "F-04  Buang yang jelas berbahasa Inggris",
+      "Jumlah": 4044
+    },
+    {
+      "Tahap": "F-04b Buang yang jelas berbahasa Melayu",
+      "Jumlah": 4012
+    },
+    {
+      "Tahap": "D-01  Setelah hapus duplikat persis",
+      "Jumlah": 3997
+    }
+  ],
+  "berkas": {
+    "bersih_csv": "ulasan_bersih.csv",
+    "bersih_jsonl": "ulasan_bersih.jsonl",
+    "korban_csv": "ulasan_korban_penipuan.csv",
+    "korban_jsonl": "ulasan_korban_penipuan.jsonl",
+    "cek_ketepatan": "sampel_cek_ketepatan.csv",
+    "cek_terlewat": "sampel_cek_korban_terlewat.csv",
+    "bukan_korban": "contoh_bukan_korban.csv",
+    "tahapan": "ringkasan_tahapan.csv",
+    "catatan": "catatan_proses.json",
+    "hasil_cek": "hasil_cek_ketepatan.csv"
+  },
+  "keluaran_lama": {
+    "dihapus": 0,
+    "dipindah": []
+  }
+}

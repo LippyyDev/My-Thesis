@@ -1,0 +1,8 @@
+﻿Tahap,Jumlah,% dari awal
+Dimuat dari checkpoint,659845,100.0
+F-05  Skor sesuai filter sumber (bintang 1 dan 2),659845,100.0
+F-01  Teks tidak kosong setelah dibersihkan,658072,99.73
+F-02  Minimal 5 kata,518531,78.58
+F-03  Rasio huruf >= 0.5,518373,78.56
+F-04  Buang yang jelas berbahasa Inggris,515974,78.2
+D-01  Setelah hapus duplikat persis,514254,77.94
