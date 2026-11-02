@@ -2,6 +2,8 @@
 
 Folder ini menampung data hasil *scraping* untuk tesis (Play Store dan X). Atas keputusan pemilik repo, data **dikomit ke GitHub**, kecuali `TERBATAS/` (garam pseudonim) dan empat berkas di atas 100 MB (batas GitHub). Status tiap berkas ada di kolom `status_git` pada `MANIFES_DATA.csv`; aturannya ada di `.gitignore`.
 
+**Data lengkap dan lokasinya di Google Drive: lihat bagian [Akses data di Google Drive](#akses-data-di-google-drive).**
+
 ## Peringatan (repo publik)
 
 | Hal | Dasar |
@@ -57,16 +59,39 @@ Angka di atas cocok dengan Lampiran A.1 (kecuali yang tidak disebut di sana).
 3. **`checkpoints/com.twitter.android_*`** di Play Store adalah ulasan *aplikasi* Twitter di Play Store, jadi tetap masuk `PLAYSTORE`, bukan `X`.
 4. **Nama berkas berubah, di repo dan di Google Drive.** Dokumen, *notebook* Colab, dan kode yang masih menyebut jalur lama (`checkpoints/`, `data/clean/ulasan_korban_penipuan.jsonl`, `data/_restricted/`, dan seterusnya) perlu diperbarui. Kolom `nama_asal` di `MANIFES_DATA.csv` memetakan nama lama ke nama baru. Isi `CATATAN_PROSES.json` sengaja tidak diubah (kunci `berkas` masih memakai nama lama).
 
-## Cadangan di Google Drive
+## Akses data di Google Drive
 
-Folder `Playstore` dan `X` di Drive pemilik repo ditata ulang dengan struktur dan penamaan yang sama dengan repo ini (`PLAYSTORE/` dan `X/`, masing-masing berisi `MENTAH/CHECKPOINT`, `BERSIH`, `KANDIDAT_KORBAN`, `PELABELAN`, `ARSIP`, `TERBATAS`). Dua perbedaan:
+Salinan lengkap data ada di Google Drive pemilik repo (alifqadry@gmail.com). Struktur dan penamaannya sama dengan repo ini.
 
-| Hal | Repo | Drive |
+| Item | Lokasi |
+|---|---|
+| Folder induk | [Drive, folder induk](https://drive.google.com/drive/folders/1v1gTubMpumZSPsdxNGLOdsClkHs3UNht) |
+| Play Store | folder induk, lalu `PLAYSTORE/` ([tautan](https://drive.google.com/drive/folders/1AKFfvGBjGSHeJhe9HHAo9A6dC6tx1R1l)) |
+| X | folder induk, lalu `X/` ([tautan](https://drive.google.com/drive/folders/17yZLj1Z7LFnk1bTE0P_1HI1QltAzq1Rj)) |
+| Hak akses | Hanya pemilik (diperiksa 2 November 2026). Jangan diubah menjadi "siapa saja dengan tautan": data memuat data pribadi |
+
+**Kelengkapan.** Pada 2 November 2026, 93 berkas data di Drive cocok dengan `MANIFES_DATA.csv` dalam nama dan ukuran (byte). SHA256 belum dibandingkan karena konektor Drive tidak menyediakannya; jalankan `--verifikasi` setelah mengunduh. Empat berkas di atas 100 MB (lihat bagian peringatan) hanya ada di Drive, tidak di GitHub.
+
+Di folder induk Drive ada juga `Pra_Penelitian`, `Uji_Kelayakan_Bagian1_LA`, dan `Uji_Kelayakan_LCGate`. Ketiganya bukan bagian dari penataan data ini dan tidak diubah. Folder kosong `data` (tiap platform) dan `_arsip` (di dalam `BERSIH`) adalah sisa penataan lama dan boleh dihapus.
+
+### Isi tiap subfolder
+
+Semua keterangan berlaku untuk `PLAYSTORE/` dan `X/` kecuali disebut lain. Angka berasal dari `CATATAN_PROSES.json` dan `MANIFES_DATA.csv`.
+
+| Subfolder | Isi | Berkas |
 |---|---|---|
-| `TERBATAS/` | Satu folder bersama di `DATA/`, tidak pernah dikomit | Satu folder per platform (`PLAYSTORE/TERBATAS`, `X/TERBATAS`) |
-| Empat berkas di atas 100 MB | Tidak ada | Ada, lengkap |
+| `MENTAH/CHECKPOINT` | Hasil *scraping* asli, belum diproses | Play Store: 54 berkas `<PAKET_APLIKASI>_SCORE_<1 atau 2>.json` (27 aplikasi, ulasan bintang 1 dan 2; total 659.845 ulasan). Empat berkas berukuran 43 byte (`COM.MICHAT.MESSENGER`, `COM.TIKTOK.SELLER`) tampaknya kosong; belum dibuka. X: `X_MENTAH_FINAL_RUNA_RUNC.jsonl` (4.391 tweet hasil kueri bertarget) |
+| `BERSIH` | Keluaran pembersihan aturan v1.4 | `ULASAN_BERSIH.csv` dan `.jsonl` (Play Store 514.254; X 3.997), `CATATAN_PROSES.json` (parameter dan jumlah tiap tahap), `RINGKASAN_TAHAPAN.csv` (ringkasan jumlah per tahap) |
+| `KANDIDAT_KORBAN` | Ulasan yang lolos aturan narasi korban S-06. Ditentukan aturan, ketepatannya belum diukur | `ULASAN_KORBAN_PENIPUAN.csv` dan `.jsonl` (Play Store 3.531; X 2.501) |
+| `PELABELAN` | Sampel untuk pelabelan manusia (V/W/T/O). Labelnya belum diisi | `SAMPEL_CEK_KETEPATAN.csv` (300; mengukur ketepatan seleksi), `SAMPEL_CEK_KORBAN_TERLEWAT.csv` (Play Store 3.000; X 1.000; memeriksa korban yang lolos dari aturan), `CONTOH_BUKAN_KORBAN.csv` (1.000) |
+| `ARSIP/DATA_PENGEMBANGAN_V1.2` dan `V1.3` (Play Store) | Sampel cek dari aturan versi lama, dipakai saat pengembangan | `SAMPEL_CEK_KETEPATAN_V1.x.csv`, `SAMPEL_CEK_KORBAN_TERLEWAT_V1.x.csv` |
+| `ARSIP/DATA_PENGEMBANGAN_KUERI` (X) | Data pengembangan kueri X | `DATA_PENGEMBANGAN_KUERI_X.csv` (797 baris) |
+| `ARSIP/PIPELINE_LAMA/FILTER_KATA_KUNCI` (Play Store) | Keluaran penyaringan kata kunci *pipeline* lama, per sektor | `FRAUD_<SEKTOR>_REVIEWS_CLEAN.csv` dan `.json`; sektor: `ECOMMERCE`, `EWALLET`, `FINTECH`, `SOCIAL_MEDIA`, dan `ALL` (gabungan) |
+| `ARSIP/PIPELINE_LAMA/GABUNGAN_BERLABEL` (Play Store) | Gabungan 501.462 ulasan berkolom klasifikasi penipuan. **Bukan** data mentah (lihat catatan 1) | `RAW_ALL_REVIEWS.csv` dan `.json` (di atas 100 MB, hanya di Drive) |
+| `ARSIP/PIPELINE_LAMA/LAPORAN` (Play Store) | Laporan *pipeline* lama | `SUMMARY_REPORT.json`, `GRAFIK_MODUS_PENIPUAN.png`, `GRAFIK_RELASI_KORBAN.png` |
+| `TERBATAS` | Rahasia, tidak pernah dikomit | `PSEUDONYM_SALT.txt` (garam pseudonim, satu per platform). Jangan dibagikan |
 
-Folder `Pra_Penelitian`, `Uji_Kelayakan_Bagian1_LA`, dan `Uji_Kelayakan_LCGate` di Drive tidak diubah. Folder `data` dan `_arsip` lama yang kosong sisa penataan masih ada di Drive dan boleh dihapus manual. Garam pseudonim asli ada di `TERBATAS/PSEUDONYM_SALT.txt` pada Drive, satu berkas per platform. Isinya belum dibandingkan antarplatform; jangan dibagikan.
+Perbedaan dengan repo: di repo, `TERBATAS/` satu folder bersama di `DATA/` dan tidak pernah dikomit; di Drive ada satu per platform. Isi garam kedua platform belum dibandingkan.
 
 ## Cara memakai di komputer lain
 
