@@ -1,7 +1,7 @@
 # Ringkasan Tesis: Ekstraksi Entitas pada Keluhan Penipuan Online Berbahasa Indonesia Menggunakan IndoBERTweet, CharCNN, Leksikon Toleran, dan Efficient GlobalPointer
 
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Versi**: rev8.3 | **Tanggal**: November 2026
+**Versi**: rev8.4 | **Tanggal**: November 2026
 
 ---
 
@@ -216,7 +216,7 @@ Rincian tujuan (dipakai bila diminta tujuan yang dirinci, tanpa menambah masalah
 | Istilah | Definisi operasional |
 |---|---|
 | Entitas | Lima tipe: PELAKU, NOMINAL, PLATFORM, MODUS, OBJEK. Istilah "entitas bernama" tidak dipakai karena MODUS dan PELAKU deskriptif bukan nama diri |
-| OBJEK (usulan, belum disetujui dosen) | Barang, jasa, produk keuangan, atau aset digital yang spesifik dan menjadi sasaran atau sarana penipuan (*tiket konser*, *iphone 13*, *pulsa*). Istilah uang umum (*uang*, *saldo*) dan kata benda generik (*barang*, *pesanan*) bukan OBJEK. Definisi lengkap: `DRAF/PANDUAN_ANOTASI/PANDUAN_ANOTASI.md` Bagian 3.5 |
+| OBJEK (usulan, belum disetujui dosen) | Benda atau jasa yang dapat dijual atau dipesan terpisah, disebut dengan jenis, merek, atau model, dan ditawarkan, dipesan, atau dibeli dalam peristiwa yang diceritakan (*tiket konser*, *iphone 13*, *pulsa*). Istilah uang umum (*uang*, *saldo*), kata benda generik (*barang*, *pesanan*), dan tema penipuan (*investasi*, *pinjaman*) bukan OBJEK. Uji tiga pertanyaan: `DRAF/PANDUAN_ANOTASI/PANDUAN_ANOTASI.md` Bagian 3.5 |
 | Kata tidak baku | Kata di luar ragam baku (*gak*, *udh*, *tf*), sesuai Ciri 01 |
 | Variasi penulisan nama | Satu nama entitas ditulis dalam bentuk berbeda: dipisah spasi (*buka lapak*), singkatan (*tokped*), atau salah ketik (*shoppe*), sesuai Ciri 02 |
 | Ungkapan numerik tidak baku | Nominal di luar pola Rp baku (*2jt*, *500rb*, *100k*, *sejuta*), sesuai Ciri 03 |
@@ -859,7 +859,7 @@ Angka berikut dihitung dari berkas `ULASAN_KORBAN_PENIPUAN.jsonl` di `EKSPERIMEN
 | Ejaan nama platform (13 merek) | 468 dari 3.059 sebutan (15,3%) ditulis tidak baku: dipisah spasi 287 (sekitar 61%; *buka lapak* 122, *link aja* 42, *toko pedia* 31), singkatan 102 (*tokped* 73, *toped* 29), salah ketik 79 (*shoppe* 34, *carousel* 22). Varian spasi hampir seluruhnya dari Play Store; pada X yang dominan singkatan media sosial (*wa* 254 vs *whatsapp* 49, *ig* 117 vs *instagram* 17). Hanya 13 merek yang dipindai, sehingga angka bisa lebih tinggi | CharCNN (salah ketik), Leksikon Toleran (berspasi, singkatan), konteks *encoder* |
 | Format nominal (6.032 dokumen) | Singkatan *rb/ribu* 566, angka + *juta* 513, *jt* 454, *k* 342, angka bertitik tanpa Rp 233, kata (*sejuta*) 161; Rp + angka baku hanya 73 | CharCNN; panduan anotasi |
 | Kata ambigu *dana* | 1.040 kemunculan di 666 dokumen; dari 40 sampel acak, sekitar 43% bukan platform (sampel kecil, rentang sekitar ±15 poin) | Konteks *encoder*; metrik akurasi kata ambigu |
-| Entitas bertumpuk (pra-anotasi 1.000 dokumen X) | 2.586 entitas (PELAKU 875, MODUS 519, NOMINAL 472, PLATFORM 466, OBJEK 254); 107 pasangan bertumpuk (PELAKU memuat PLATFORM 66, MODUS memuat NOMINAL 35), tanpa *span* bersilang | EGP |
+| Entitas bertumpuk (pra-anotasi 1.000 dokumen X) | 2.586 entitas (PELAKU 875, MODUS 519, NOMINAL 472, PLATFORM 466, OBJEK 254, dihitung dengan pola OBJEK sebelum penyempitan rev8.4); 107 pasangan bertumpuk (PELAKU memuat PLATFORM 66, MODUS memuat NOMINAL 35), tanpa *span* bersilang | EGP |
 | Batas entitas | Frasa penyamar (*mengaku*, *mengatasnamakan*) di 8,0% dokumen Play Store dan 10,4% dokumen X; MODUS median 4 kata, 24% berisi 6 kata atau lebih, maksimum 13; 195 PELAKU berupa nomor HP atau rekening asli; 214 entitas (8%) ditandai ragu | Panduan anotasi; EGP menilai *span* utuh |
 | Distribusi dokumen | Tanpa MODUS spesifik (GENERAL_FRAUD) 41,0% Play Store dan 79,9% X; nama aplikasi yang diulas ikut disebut di 47% ulasan Play Store; kerugian gagal atau hampir terjadi 15,1% | Panduan anotasi; ketidakseimbangan kelas |
 | Panjang teks | Median 33 kata (Play Store) dan 41 kata (X); pada 1.000 dokumen X, 4,4% melebihi 100 kata (terpanjang 553) | *Sliding window* (prapemrosesan) |

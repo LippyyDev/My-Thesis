@@ -1,8 +1,8 @@
 # Panduan Anotasi NER Keluhan Penipuan Online Berbahasa Indonesia
 
-**Versi**: v0.2 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
+**Versi**: v0.3 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.3 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
+**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.4 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
 
 **Isi berkas ini**: aturan penandaan yang diberikan kepada anotator AI (seluruh isi berkas dipakai sebagai instruksi) dan menjadi rujukan dosen.
 
@@ -229,23 +229,30 @@ Setiap tipe berisi: definisi, tabel keputusan, aturan batas, dan hubungannya den
 
 ### 3.5 OBJEK
 
-> **Definisi ini usulan penuh (KP-01).** Dokumen induk rev8.2 tidak mendefinisikan OBJEK; rev8.3 memuat definisi ini sebagai usulan. Setujui, ubah, atau tolak sebelum anotasi dimulai.
+> **Definisi ini usulan (KP-01), disempitkan pada v0.3.** Dokumen induk rev8.2 tidak mendefinisikan OBJEK. Penulis menyetujui uji tiga pertanyaan di bawah; persetujuan dosen masih ditunggu. Uji ini diperiksa dulu pada 30 dokumen sebelum dikunci (`PROTOKOL_ANOTASI.md` Bagian 9.1).
 
-**Definisi usulan.** Barang, jasa, produk keuangan, atau aset digital **yang spesifik** yang menjadi sasaran atau sarana penipuan: yang dijual, dipesan, dijanjikan, ditawarkan, dipinjam, atau diambil.
+**Definisi.** Barang atau jasa yang dapat dijual, dipesan, atau dibeli secara terpisah, yang disebut dengan jenis, merek, atau model, dalam peristiwa yang diceritakan.
+
+**Uji tiga pertanyaan.** Sebuah frasa OBJEK hanya bila ketiganya dijawab ya:
+
+1. Dapatkah ia dijual, dibeli, atau dipesan secara terpisah sebagai satu benda atau satu jasa?
+2. Apakah teks menyebut jenis, merek, atau model, bukan kata generik?
+3. Apakah ia disebut sebagai benda yang ditawarkan, dipesan, dijanjikan, atau dibeli dalam peristiwa yang diceritakan? Peristiwanya tidak harus penipuan (lihat 5.5).
 
 | Tandai | Contoh |
 |---|---|
-| Barang spesifik (jenis, merek, atau model) | `[iphone 13]{OBJEK}`, `[tiket konser]{OBJEK}`, `[nasi box]{OBJEK}` |
+| Barang (jenis, merek, atau model) | `[iphone 13]{OBJEK}`, `[tiket konser]{OBJEK}`, `[nasi box]{OBJEK}`, `[album kpop]{OBJEK}`, `[mobil bekas]{OBJEK}`, `[hp]{OBJEK}` |
 | Pulsa, voucher, paket data | `[pulsa]{OBJEK}`, `[voucher]{OBJEK}` |
-| Produk keuangan atau layanan | `[investasi]{OBJEK}`, `[pinjaman]{OBJEK}`, `[jasa joki]{OBJEK}`, `[lowongan kerja]{OBJEK}` |
-| Aset digital yang bukan akun platform | `[diamond]{OBJEK}`, `[bitcoin]{OBJEK}` |
+| Jasa yang dipesan | `[jasa joki]{OBJEK}` |
+| Aset digital yang dijual | `[diamond]{OBJEK}`, `[bitcoin]{OBJEK}` |
 
 **Bukan OBJEK**:
 
 | Jenis | Contoh | Alasan |
 |---|---|---|
 | Istilah uang umum | `uang`, `duit`, `dana`, `saldo`, `rupiah`, `transferan` | Terlalu umum dan hampir ada di setiap dokumen; jumlahnya sudah ditangkap NOMINAL |
-| Kata benda generik | `barang`, `pesanan`, `orderan`, `produk`, `item`, `paket`, `data`, `akun` | Tidak menyebut jenis apa pun |
+| Kata benda generik | `barang`, `pesanan`, `orderan`, `produk`, `item`, `paket`, `data`, `akun` | Gagal uji 2: tidak menyebut jenis apa pun |
+| Tema penipuan | `investasi`, `pinjaman`, `lowongan kerja` | Gagal uji 1: bukan benda yang dijual terpisah, lebih dekat ke tema atau dalih. Bila menjadi dalih pelaku, pertimbangkan MODUS (3.4) |
 | Frasa yang memuat nama platform | `akun Instagram`, `saldo DANA` | OBJEK tidak boleh memuat entitas lain (Bagian 4). Tandai PLATFORM saja, dan lewati OBJEK |
 | Frasa yang memuat nominal | `voucher 50rb` | Pisahkan: `[voucher]{OBJEK} [50rb]{NOMINAL}` |
 
@@ -318,7 +325,7 @@ Kerjakan berurutan untuk setiap dokumen. Urutan dipilih dari yang paling mekanis
 3. **PLATFORM**: cari semua nama layanan menurut 3.3. Terapkan uji substitusi untuk kata ambigu. Isi `varian` dan `kanonik`.
 4. **PELAKU**: cari pihak yang dituduh menipu (peran, persona, nama, pengenal). Pastikan rentang berupa frasa nomina tanpa kata kerja. Keluarkan kata isyarat. Persona yang hanya nama platform tidak menjadi PELAKU (3.1). Teman atau keluarga menjadi PELAKU hanya bila teks menyatakan ia menipu.
 5. **MODUS**: cari cara, dalih, atau perbuatan inti pelaku. Tolak akibat dan pernyataan umum. Potong agar tidak memuat PELAKU, PLATFORM, atau OBJEK (tahap PRODUKSI).
-6. **OBJEK**: cari barang, jasa, atau aset yang spesifik. Tolak istilah uang umum dan kata benda generik.
+6. **OBJEK**: terapkan uji tiga pertanyaan di 3.5. Tolak istilah uang umum, kata benda generik, dan tema penipuan (`investasi`, `pinjaman`).
 7. **Tumpukan**: periksa dua pola (Bagian 4). Pastikan tidak ada tumpukan lain di tahap PRODUKSI.
 8. **Batas**: untuk setiap rentang, periksa 2.1 sampai 2.5 dan 2.12 (tepi, kata penunjuk, tanda baca, awalan menempel, format nomor).
 9. **Penanda**: beri penanda dan `alasan` untuk setiap keraguan.
@@ -340,7 +347,7 @@ Semua contoh di bagian ini **dibuat untuk panduan** (ilustrasi buatan), bukan ku
 | 5 | `Pengembalian dana belum masuk ke akun [dana]{PLATFORM} saya` | `dana` pertama = uang, bukan PLATFORM. Kedua menunjuk dompet digital |
 | 6 | `Uang saya hilang [270ribu]{NOMINAL}, rugi [jutaan]{NOMINAL}` | `uang` tidak ditandai OBJEK. `hilang` akibat, bukan MODUS. `jutaan` perkiraan tanpa angka |
 | 7 | `Untung batal transfer [300 rb]{NOMINAL} ke orang yg ngaku [polisi]{PELAKU}` | `orang` terlalu umum. `ngaku` isyarat. `polisi` persona |
-| 8 | `Pesan [nasi box]{OBJEK} 60 buah seharga [3 juta]{NOMINAL}` | `60 buah` bukan NOMINAL. Objek spesifik ditandai |
+| 8 | `Pesan [nasi box]{OBJEK} 60 buah seharga [3 juta]{NOMINAL}` | `60 buah` bukan NOMINAL. `nasi box` lolos uji 3.5 |
 | 9 | `[Shopee]{PLATFORM} penipu, aplikasinya penipu semua` | PELAKU tidak ditandai pada platform atau aplikasi |
 | 10 | `CS [Shopee]{PLATFORM} tidak membantu sama sekali` | CS di sini bukan pelaku. Hanya PLATFORM |
 | 11 | `Saya ditipu lewat telepon oleh [CS [Kredivo]{PLATFORM}]{PELAKU} atas nama [Budi]{PELAKU}` | Dua rujukan pelaku yang berbeda dilabeli sebagai dua rentang |
@@ -350,6 +357,8 @@ Semua contoh di bagian ini **dibuat untuk panduan** (ilustrasi buatan), bukan ku
 | 15 | `Ada yang menyamar sebagai [OVO]{PLATFORM}, akun saya dikuras` | Persona hanya nama platform: PLATFORM saja (varian `BAKU`, kanonik *OVO*), tanpa PELAKU. `dikuras` akibat, bukan MODUS |
 | 16 | `Uang di[shopeepay]{PLATFORM} saya hilang` | Awalan *di-* di luar rentang. `shopeepay`: varian `BAKU`, kanonik *ShopeePay* |
 | 17 | `Dia [minta dp [400]{NOMINAL}]{MODUS} dulu` | Angka tanpa satuan langsung setelah *dp*: NOMINAL dengan `RAGU_ADA`. `dia` kata ganti, tidak ditandai |
+| 18 | `Kena tipu beli [album kpop]{OBJEK} lewat [twitter]{PLATFORM}` | `album kpop` jenis barang yang dibeli: lolos uji 3.5 |
+| 19 | `Ditawari investasi dengan modal [5 juta]{NOMINAL}` | `investasi` tema penipuan, gagal uji 1: bukan OBJEK. `5 juta` NOMINAL |
 
 ---
 

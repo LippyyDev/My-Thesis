@@ -1,8 +1,8 @@
 # Panduan Pemeriksaan Label untuk Dosen
 
-**Versi**: v0.2 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
+**Versi**: v0.3 (DRAF, **belum dikunci**) | **Tanggal**: 2 November 2026
 **Program Studi**: Teknik Informatika S2, Universitas Hasanuddin
-**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.3 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
+**Dokumen induk**: `DRAF/RENCANA_TESIS/RENCANA_SINGKAT_TESIS.md` rev8.4 (jika berbeda dengan set ini, dokumen induk menang, kecuali pada butir yang ditandai usulan, lihat `PROTOKOL_ANOTASI.md` Bagian 0.2)
 
 **Isi berkas ini**: cara memeriksa label yang dibuat anotator AI. Aturan lengkap ada di `PANDUAN_ANOTASI.md`.
 
@@ -37,7 +37,7 @@ Untuk memeriksa dengan cepat. **Aturan lengkap ada di `PANDUAN_ANOTASI.md`**; bi
 | NOMINAL | Semua ungkapan jumlah uang, termasuk bentuk tidak baku: *2jt*, *500rb*, *100k*, *sejuta*, *jutaan*; angka tanpa satuan tepat setelah *dp/tf* diberi tanda ragu (KP-15) | Nomor telepon atau rekening, tanggal, jumlah barang, bunga, poin | Bagian 3.2 |
 | PLATFORM | Nama aplikasi, situs, atau layanan digital (termasuk bank dan dompet digital), dalam bentuk baku, singkatan, terpisah spasi, atau salah ketik; awalan *di-/ke-* yang menempel (*dishopeepay*) tidak ikut rentang (KP-14) | Kata jenis umum (*aplikasi*, *bank*), nama akun, kata *dana* yang berarti uang | Bagian 3.3 |
 | MODUS | Cara, dalih, atau perbuatan inti pelaku; boleh memuat kata kerja; target 2 sampai 5 kata, paling banyak 8 | Akibat (*uang hilang*), pernyataan umum (*ditipu*), tindakan penulis, kata isyarat (*ngaku*, *kedok*) | Bagian 3.4 |
-| OBJEK | Barang, jasa, atau aset yang spesifik (*tiket konser*, *iphone 13*). **Definisi ini belum disetujui** | Istilah uang umum, kata benda generik (*barang*, *pesanan*) | Bagian 3.5 |
+| OBJEK | Benda atau jasa yang dapat dijual atau dipesan terpisah, disebut dengan jenis, merek, atau model, dan ditawarkan, dipesan, atau dibeli dalam peristiwa yang diceritakan (*iphone 13*, *album kpop*, *pulsa*). **Definisi ini belum disetujui dosen** | Istilah uang umum, kata benda generik (*barang*, *pesanan*), tema penipuan (*investasi*, *pinjaman*, *lowongan kerja*) | Bagian 3.5 |
 
 Tumpukan yang diizinkan hanya dua: PLATFORM di dalam PELAKU (`[CS [Shopee]{PLATFORM}]{PELAKU}`) dan NOMINAL di dalam MODUS (`[suruh tf [2jt]{NOMINAL}]{MODUS}`). Aturan lengkap: Bagian 4 `PANDUAN_ANOTASI.md`.
 
@@ -88,7 +88,7 @@ Daftar singkat penolakan per tipe:
 | NOMINAL | Berupa nomor, tanggal, jumlah barang, bunga, atau poin; memuat *sekitar*, *total*, *sebesar*; satuan ambigu ditandai tanpa dasar |
 | PLATFORM | Kata jenis umum (*aplikasi*, *bank*) ikut; *dana* sebagai uang ditandai; akun ditandai sebagai PLATFORM; `varian` atau `kanonik` salah |
 | MODUS | Berupa akibat (*uang hilang*) atau pernyataan umum (*ditipu*); tindakan penulis; lebih dari 8 kata; memuat PELAKU, PLATFORM, atau OBJEK pada tahap PRODUKSI |
-| OBJEK | Berupa istilah uang umum atau kata benda generik; memuat PLATFORM atau NOMINAL |
+| OBJEK | Berupa istilah uang umum, kata benda generik, atau tema penipuan (*investasi*, *pinjaman*); tidak dapat dijual atau dipesan terpisah; memuat PLATFORM atau NOMINAL |
 
 ### 10.5 Bagaimana mencatat putusan
 
